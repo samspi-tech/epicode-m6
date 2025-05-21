@@ -1,37 +1,41 @@
-const UsersSchema = require('../models/user')
+const UsersSchema = require('../models/user');
 
-const findAll = async () => {
-    return UsersSchema.find()
-}
+const findAllUsers = async () => {
+    return UsersSchema.find();
+};
+
+const findSingleUser = async (id) => {
+    return UsersSchema.findById(id);
+};
 
 const createUser = async (user) => {
-    const {name, value} = user
+    const { name, value } = user;
 
     const newUser = new UsersSchema({
         ...user,
         [name]: value,
-        dateOfBirth: new Date(user.dateOfBirth)
-    })
+    });
 
-    const savedUser = await newUser.save()
+    const savedUser = await newUser.save();
     return {
         message: 'User saved successfully',
-        user: savedUser
-    }
-}
+        user: savedUser,
+    };
+};
 
 const updateUser = async (payload, id) => {
-    const option = {new: true}
-    return UsersSchema.findByIdAndUpdate(id, payload, option)
-}
+    const option = { new: true };
+    return UsersSchema.findByIdAndUpdate(id, payload, option);
+};
 
 const deleteUser = async (id) => {
-    return UsersSchema.findByIdAndDelete(id)
-}
+    return UsersSchema.findByIdAndDelete(id);
+};
 
 module.exports = {
-    findAll,
+    findAllUsers,
+    findSingleUser,
     createUser,
     updateUser,
-    deleteUser
-}
+    deleteUser,
+};
