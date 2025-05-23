@@ -1,4 +1,5 @@
 const usersService = require('../services/user.service');
+const { isArrayEmpty } = require('../utils/array');
 
 const getAllUsers = async (req, res) => {
     try {
@@ -12,7 +13,7 @@ const getAllUsers = async (req, res) => {
         const { users, totalUsers, totalPages } =
             await usersService.findAllUsers(page, pageSize, field, order);
 
-        if (!users || users.length === 0) {
+        if (isArrayEmpty(users)) {
             return res.status(404).send({
                 statusCode: 404,
                 message: 'No user found',
@@ -84,8 +85,8 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const { id } = req.params;
         const { body } = req;
+        const { id } = req.params;
         const user = await usersService.updateUser(body, id);
 
         if (!user) {

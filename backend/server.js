@@ -9,7 +9,6 @@ const server = express();
 
 server.use(express.json());
 server.use('/', usersRoute);
-
 server.use(cors());
 
 startServer(PORT, server);
