@@ -2,7 +2,15 @@ const usersService = require('../services/user.service');
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await usersService.findAllUsers();
+        const {
+            page = 1,
+            pageSize = 10,
+            field = 'username',
+            order = 'asc',
+        } = req.query;
+
+        const { users, totalUsers, totalPages } =
+            await usersService.findAllUsers(page, pageSize, field, order);
 
         if (!users || users.length === 0) {
             return res.status(404).send({
@@ -14,6 +22,12 @@ const getAllUsers = async (req, res) => {
         res.status(200).send({
             statusCode: 200,
             users,
+            page,
+            pageSize,
+            totalUsers,
+            totalPages,
+            field,
+            order,
         });
     } catch (e) {
         res.status(500).send({
@@ -27,9 +41,9 @@ const getAllUsers = async (req, res) => {
 const getSingleUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const singleUser = await usersService.findSingleUser(id);
+        const user = await usersService.findSingleUser(id);
 
-        if (!singleUser || singleUser.length === 0) {
+        if (!user) {
             return res.status(404).send({
                 statusCode: 404,
                 message: 'No user found',
@@ -38,7 +52,7 @@ const getSingleUser = async (req, res) => {
 
         res.status(200).send({
             statusCode: 200,
-            singleUser,
+            user,
         });
     } catch (e) {
         res.status(500).send({
@@ -56,7 +70,7 @@ const createUser = async (req, res) => {
 
         res.status(201).send({
             statusCode: 201,
-            message: 'User created',
+            message: 'User created successfully',
             user,
         });
     } catch (e) {

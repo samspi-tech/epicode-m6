@@ -1,7 +1,18 @@
 const UsersSchema = require('../models/user');
 
-const findAllUsers = async () => {
-    return UsersSchema.find();
+const findAllUsers = async (page, pageSize, field, order) => {
+    const totalUsers = await UsersSchema.countDocuments();
+    const totalPages = Math.ceil(totalUsers / pageSize);
+    const users = await UsersSchema.find()
+        .sort({ [field]: order === 'desc' ? -1 : 1 })
+        .limit(pageSize)
+        .skip((page - 1) * pageSize);
+
+    return {
+        totalUsers,
+        totalPages,
+        users,
+    };
 };
 
 const findSingleUser = async (id) => {
@@ -16,11 +27,7 @@ const createUser = async (user) => {
         [name]: value,
     });
 
-    const savedUser = await newUser.save();
-    return {
-        message: 'User saved successfully',
-        user: savedUser,
-    };
+    return await newUser.save();
 };
 
 const updateUser = async (payload, id) => {
