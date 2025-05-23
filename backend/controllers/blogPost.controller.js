@@ -1,32 +1,37 @@
-const usersService = require('../services/user.service');
+const blogPostsService = require('../services/blogPost.service');
 const { isArrayEmpty } = require('../utils/array');
 
-const getAllUsers = async (req, res) => {
+const getAllBlogPosts = async (req, res) => {
     try {
         const {
             page = 1,
             pageSize = 10,
-            field = 'username',
+            field = 'category',
             order = 'asc',
         } = req.query;
 
-        const { users, totalUsers, totalPages } =
-            await usersService.findAllUsers(page, pageSize, field, order);
+        const { blogPosts, totalPages, totalBlogPosts } =
+            await blogPostsService.findAllBlogPosts(
+                page,
+                pageSize,
+                field,
+                order,
+            );
 
-        if (isArrayEmpty(users)) {
+        if (isArrayEmpty(blogPosts)) {
             return res.status(404).send({
                 statusCode: 404,
-                message: 'No user found',
+                message: 'Posts not found',
             });
         }
 
         res.status(200).send({
             statusCode: 200,
-            users,
+            blogPosts,
             page,
             pageSize,
-            totalUsers,
             totalPages,
+            totalBlogPosts,
             field,
             order,
         });
@@ -39,21 +44,21 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-const getSingleUser = async (req, res) => {
+const getSingleBlogPost = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await usersService.findSingleUser(id);
+        const post = await blogPostsService.findSingleBlogPost(id);
 
-        if (!user) {
+        if (!post) {
             return res.status(404).send({
                 statusCode: 404,
-                message: 'No user found',
+                message: 'Post not found',
             });
         }
 
         res.status(200).send({
             statusCode: 200,
-            user,
+            post,
         });
     } catch (e) {
         res.status(500).send({
@@ -64,15 +69,15 @@ const getSingleUser = async (req, res) => {
     }
 };
 
-const createUser = async (req, res) => {
+const createBlogPost = async (req, res) => {
     try {
         const { body } = req;
-        const user = await usersService.createUser(body);
+        const post = await blogPostsService.createBlogPost(body);
 
         res.status(201).send({
             statusCode: 201,
-            message: 'User created successfully',
-            user,
+            message: 'Post created successfully',
+            post,
         });
     } catch (e) {
         res.status(500).send({
@@ -83,23 +88,23 @@ const createUser = async (req, res) => {
     }
 };
 
-const updateUser = async (req, res) => {
+const updateBlogPost = async (req, res) => {
     try {
         const { body } = req;
         const { id } = req.params;
-        const user = await usersService.updateUser(id, body);
+        const post = await blogPostsService.updateBlogPost(id, body);
 
-        if (!user) {
+        if (!post) {
             return res.status(404).send({
                 statusCode: 404,
-                message: 'User not found',
+                message: 'Post not found',
             });
         }
 
         res.status(200).send({
             statusCode: 200,
-            message: 'User updated successfully',
-            user,
+            message: 'Post updated successfully',
+            post,
         });
     } catch (e) {
         res.status(500).send({
@@ -110,22 +115,22 @@ const updateUser = async (req, res) => {
     }
 };
 
-const deleteUser = async (req, res) => {
+const deleteBlogPost = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await usersService.deleteUser(id);
+        const post = await blogPostsService.deleteBlogPost(id);
 
-        if (!user) {
+        if (!post) {
             return res.status(404).send({
                 statusCode: 404,
-                message: 'User not found',
+                message: 'Post not found',
             });
         }
 
         res.status(200).send({
             statusCode: 200,
-            message: 'User deleted successfully',
-            user,
+            message: 'Post deleted successfully',
+            post,
         });
     } catch (e) {
         res.status(500).send({
@@ -137,9 +142,9 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-    getAllUsers,
-    getSingleUser,
-    createUser,
-    updateUser,
-    deleteUser,
+    getAllBlogPosts,
+    getSingleBlogPost,
+    createBlogPost,
+    updateBlogPost,
+    deleteBlogPost,
 };

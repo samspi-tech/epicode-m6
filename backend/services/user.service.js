@@ -11,9 +11,9 @@ const findAllUsers = async (page, pageSize, field, order) => {
         .skip(calcSkip(page, pageSize));
 
     return {
+        users,
         totalUsers,
         totalPages,
-        users,
     };
 };
 
@@ -26,7 +26,7 @@ const createUser = async (user) => {
     return await newUser.save();
 };
 
-const updateUser = async (payload, id) => {
+const updateUser = async (id, payload) => {
     const option = { new: true };
     return UsersSchema.findByIdAndUpdate(id, payload, option);
 };
