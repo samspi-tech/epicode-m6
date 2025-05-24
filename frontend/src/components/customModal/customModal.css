@@ -1,0 +1,12 @@
+.modal-header {
+    background-color: var(--bg-secondary);
+}
+
+.modal-body {
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+}
+
+.modal-title h4 {
+    font-weight: 800;
+}

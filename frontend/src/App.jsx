@@ -1,7 +1,9 @@
+import Navigation from './components/navigation/Navigation.jsx';
+
 const App = () => {
     return (
         <>
-            <div>ciao</div>
+            <Navigation />
         </>
     );
 };
