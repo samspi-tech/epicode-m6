@@ -8,9 +8,10 @@ const usersRoute = require('./routes/user.route');
 const blogPostsRoute = require('./routes/blogPost.route');
 const server = express();
 
+server.use(cors());
+
 server.use(express.json());
 server.use('/', usersRoute);
 server.use('/', blogPostsRoute);
-server.use(cors());
 
 startServer(PORT, server);

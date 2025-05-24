@@ -10,3 +10,7 @@
 .modal-title h4 {
     font-weight: 800;
 }
+
+.btn-close {
+    box-shadow: none !important;
+}

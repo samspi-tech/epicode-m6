@@ -16,7 +16,7 @@ const BlogPostSchema = new mongoose.Schema(
         cover: {
             type: String,
             default: 'https://picsum.photos/200/300',
-            match: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/,
+            match: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
         },
         readTime: {
             value: {

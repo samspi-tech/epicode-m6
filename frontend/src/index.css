@@ -2,8 +2,9 @@
 
 :root {
     --bg-primary: #212529;
-    --bg-secondary: #868e96;
+    --bg-secondary: #ced4da;
     --text-primary: #f8f9fa;
+    --text-secondary: #222222;
 }
 
 body {

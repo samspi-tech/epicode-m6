@@ -1,9 +1,13 @@
 import './brandLogo.css';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/images/epicodeLogo.jpeg';
 
 const BrandLogo = () => {
     return (
-        <div className="brand-logo d-flex align-items-center gap-1 mx-auto">
+        <Link
+            to="/"
+            className="brand-logo d-flex align-items-center gap-1 mx-auto mx-md-0"
+        >
             <div className="logo-container">
                 <img
                     src={logo}
@@ -12,7 +16,7 @@ const BrandLogo = () => {
                 />
             </div>
             <h2 className="mb-0">Epiblog</h2>
-        </div>
+        </Link>
     );
 };
 
