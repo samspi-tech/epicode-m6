@@ -1,0 +1,20 @@
+.blog-post-form, .blog-post-form:focus {
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    background-color: transparent;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    opacity: 1;
+}
+
+.blog-post-form.number {
+    width: 55px;
+}
+
+.blog-post-form.textarea {
+    resize: none;
+    height: 50vh;
+}

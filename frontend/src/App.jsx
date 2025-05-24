@@ -1,10 +1,15 @@
-import Navigation from './components/navigation/Navigation.jsx';
+import Homepage from './pages/Homepage.jsx';
+import NotFound from './pages/NotFound.jsx';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App = () => {
     return (
-        <>
-            <Navigation />
-        </>
+        <Router>
+            <Routes>
+                <Route index path="/" element={<Homepage />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </Router>
     );
 };
 
