@@ -3,14 +3,19 @@ import { createContext, useState } from 'react';
 export const BlogPostContext = createContext();
 
 export const BlogPostProvider = ({ children }) => {
+    const [page, setPage] = useState(1);
     const [data, setData] = useState(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const blogPosts = data && data.blogPosts ? data.blogPosts : data;
+
     const getAllBlogPosts = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://localhost:9099/blogPosts');
+            const response = await fetch(
+                `http://localhost:9099/blogPosts/?pageSize=3&page=${page}`,
+            );
             const data = await response.json();
             setData(data);
         } catch (e) {
@@ -67,20 +72,19 @@ export const BlogPostProvider = ({ children }) => {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        createBlogPost();
-    };
-
     return (
         <BlogPostContext.Provider
             value={{
                 data,
+                blogPosts,
+                setData,
                 error,
                 isLoading,
                 getAllBlogPosts,
+                page,
+                setPage,
                 payload,
-                handleSubmit,
+                createBlogPost,
                 handleNestedObj,
                 handleBlogPostCreation,
             }}

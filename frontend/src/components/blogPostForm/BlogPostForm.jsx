@@ -4,8 +4,13 @@ import { Button, Form } from 'react-bootstrap';
 import { BlogPostContext } from '../../contexts/BlogPostsContext.jsx';
 
 const BlogPostForm = () => {
-    const { payload, handleBlogPostCreation, handleNestedObj, handleSubmit } =
+    const { payload, handleBlogPostCreation, handleNestedObj, createBlogPost } =
         useContext(BlogPostContext);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        createBlogPost();
+    };
 
     return (
         <Form onSubmit={handleSubmit} className="my-3 d-flex flex-column">
@@ -63,10 +68,10 @@ const BlogPostForm = () => {
                 value={payload.content}
                 placeholder="Tell your story..."
                 onChange={handleBlogPostCreation}
-                className="blog-post-form textarea mt-5 fs-5 w-100"
+                className="blog-post-form textarea mt-5 fs-5 w-50 mx-auto"
                 required
             />
-            <Button type="submit" className="align-self-start">
+            <Button size="lg" type="submit" className="align-self-center">
                 Post
             </Button>
         </Form>
