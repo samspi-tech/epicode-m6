@@ -1,0 +1,26 @@
+.loading-spinner-container {
+    overflow: hidden;
+    position: relative;
+    color: var(--text-primary);
+}
+
+.loading-spinner {
+    position: absolute;
+}
+
+.loading-spinner.one {
+    animation: rolling 2500ms linear infinite;
+}
+
+.loading-spinner.two {
+    animation: rolling 1500ms linear infinite;
+}
+
+@keyframes rolling {
+    0% {
+        transform: translateX(-45px) rotate(0);
+    }
+    100% {
+        transform: translateX(315px) rotate(1080deg);
+    }
+}
