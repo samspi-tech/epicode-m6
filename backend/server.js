@@ -4,14 +4,14 @@ require('dotenv').config();
 
 const PORT = 9099;
 const startServer = require('./config/db');
-const usersRoute = require('./routes/user.route');
+const authorsRoute = require('./routes/author.route');
 const blogPostsRoute = require('./routes/blogPost.route');
 const server = express();
 
 server.use(cors());
 
 server.use(express.json());
-server.use('/', usersRoute);
+server.use('/', authorsRoute);
 server.use('/', blogPostsRoute);
 
 startServer(PORT, server);

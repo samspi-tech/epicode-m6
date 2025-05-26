@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema(
+const AuthorsSchema = new mongoose.Schema(
     {
         firstName: {
             type: String,
@@ -18,28 +18,18 @@ const UserSchema = new mongoose.Schema(
             required: true,
             max: 100,
         },
-        password: {
+        dateOfBirth: {
             type: String,
             required: true,
-            min: 8,
         },
-        dateOfBirth: {
-            type: Date,
-            default: new Date(),
-        },
-        username: {
+        avatar: {
             type: String,
             unique: true,
             required: true,
             max: 100,
         },
-        role: {
-            type: String,
-            enum: ['user', 'admin'],
-            default: 'user',
-        },
     },
     { timestamps: true, strict: true },
 );
 
-module.exports = mongoose.model('user', UserSchema, 'users');
+module.exports = mongoose.model('author', AuthorsSchema, 'authors');

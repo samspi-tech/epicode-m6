@@ -1,31 +1,31 @@
-const usersService = require('../services/user.service');
+const authorsService = require('../services/author.service');
 const { isArrayEmpty } = require('../utils/array');
 
-const getAllUsers = async (req, res) => {
+const getAllAuthors = async (req, res) => {
     try {
         const {
             page = 1,
             pageSize = 10,
-            field = 'username',
+            field = 'avatar',
             order = 'asc',
         } = req.query;
 
-        const { users, totalUsers, totalPages } =
-            await usersService.findAllUsers(page, pageSize, field, order);
+        const { authors, totalAuthors, totalPages } =
+            await authorsService.findAllAuthors(page, pageSize, field, order);
 
-        if (isArrayEmpty(users)) {
+        if (isArrayEmpty(authors)) {
             return res.status(404).send({
                 statusCode: 404,
-                message: 'No user found',
+                message: 'No author found',
             });
         }
 
         res.status(200).send({
             statusCode: 200,
-            users,
+            authors,
             page,
             pageSize,
-            totalUsers,
+            totalAuthors,
             totalPages,
             field,
             order,
@@ -39,21 +39,21 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-const getSingleUser = async (req, res) => {
+const getSingleAuthor = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await usersService.findSingleUser(id);
+        const author = await authorsService.findSingleAuthor(id);
 
-        if (!user) {
+        if (!author) {
             return res.status(404).send({
                 statusCode: 404,
-                message: 'No user found',
+                message: 'No author found',
             });
         }
 
         res.status(200).send({
             statusCode: 200,
-            user,
+            author,
         });
     } catch (e) {
         res.status(500).send({
@@ -64,15 +64,15 @@ const getSingleUser = async (req, res) => {
     }
 };
 
-const createUser = async (req, res) => {
+const createAuthor = async (req, res) => {
     try {
         const { body } = req;
-        const user = await usersService.createUser(body);
+        const author = await authorsService.createAuthor(body);
 
         res.status(201).send({
             statusCode: 201,
-            message: 'User created successfully',
-            user,
+            message: 'Author created successfully',
+            author,
         });
     } catch (e) {
         res.status(500).send({
@@ -83,23 +83,23 @@ const createUser = async (req, res) => {
     }
 };
 
-const updateUser = async (req, res) => {
+const updateAuthor = async (req, res) => {
     try {
         const { body } = req;
         const { id } = req.params;
-        const user = await usersService.updateUser(id, body);
+        const author = await authorsService.updateAuthor(id, body);
 
-        if (!user) {
+        if (!author) {
             return res.status(404).send({
                 statusCode: 404,
-                message: 'User not found',
+                message: 'Author not found',
             });
         }
 
         res.status(200).send({
             statusCode: 200,
-            message: 'User updated successfully',
-            user,
+            message: 'Author updated successfully',
+            author,
         });
     } catch (e) {
         res.status(500).send({
@@ -110,22 +110,22 @@ const updateUser = async (req, res) => {
     }
 };
 
-const deleteUser = async (req, res) => {
+const deleteAuthor = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await usersService.deleteUser(id);
+        const author = await authorsService.deleteAuthor(id);
 
-        if (!user) {
+        if (!author) {
             return res.status(404).send({
                 statusCode: 404,
-                message: 'User not found',
+                message: 'Author not found',
             });
         }
 
         res.status(200).send({
             statusCode: 200,
-            message: 'User deleted successfully',
-            user,
+            message: 'Author deleted successfully',
+            author,
         });
     } catch (e) {
         res.status(500).send({
@@ -137,9 +137,9 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-    getAllUsers,
-    getSingleUser,
-    createUser,
-    updateUser,
-    deleteUser,
+    getAllAuthors,
+    getSingleAuthor,
+    createAuthor,
+    updateAuthor,
+    deleteAuthor,
 };
