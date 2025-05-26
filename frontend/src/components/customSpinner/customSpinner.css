@@ -6,6 +6,7 @@
 
 .loading-spinner {
     position: absolute;
+    left: 0;
 }
 
 .loading-spinner.one {
@@ -21,6 +22,6 @@
         transform: translateX(-45px) rotate(0);
     }
     100% {
-        transform: translateX(315px) rotate(1080deg);
+        transform: translateX(400px) rotate(1080deg);
     }
 }

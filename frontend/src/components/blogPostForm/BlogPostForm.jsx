@@ -68,10 +68,10 @@ const BlogPostForm = () => {
                 value={payload.content}
                 placeholder="Tell your story..."
                 onChange={handleBlogPostCreation}
-                className="blog-post-form textarea mt-5 fs-5 w-50 mx-auto"
+                className="blog-post-form textarea mt-5 fs-5"
                 required
             />
-            <Button size="lg" type="submit" className="align-self-center">
+            <Button size="lg" type="submit" className="mt-2 align-self-center">
                 Post
             </Button>
         </Form>

@@ -18,3 +18,16 @@ input::-webkit-inner-spin-button {
     resize: none;
     height: 50vh;
 }
+
+@media (min-width: 1440px) {
+    .blog-post-form.textarea {
+        width: 75%;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 2560px) {
+    .blog-post-form.textarea {
+        width: 50%;
+    }
+}

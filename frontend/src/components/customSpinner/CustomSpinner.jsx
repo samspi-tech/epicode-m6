@@ -1,9 +1,9 @@
-import './loadingSpinner.css';
+import './customSpinner.css';
 import { Spinner } from 'react-bootstrap';
 
-const LoadingSpinner = ({ text }) => {
+const CustomSpinner = ({ text }) => {
     return (
-        <div className="loading-spinner-container d-flex flex-column gap-2">
+        <div className="col-10 col-md-6 col-lg-5 col-xl-4 loading-spinner-container d-flex flex-column align-items-center gap-2">
             <Spinner className="loading-spinner one"></Spinner>
             <Spinner className="loading-spinner two"></Spinner>
             <span className="mt-5">{text}</span>
@@ -11,4 +11,4 @@ const LoadingSpinner = ({ text }) => {
     );
 };
 
-export default LoadingSpinner;
+export default CustomSpinner;

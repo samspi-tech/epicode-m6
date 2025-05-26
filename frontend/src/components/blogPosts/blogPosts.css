@@ -1,26 +1,19 @@
 .post-container {
-    min-width: 410px;
-    max-width: 700px;
     border-radius: 10px;
     color: var(--text-secondary);
     background-color: var(--bg-secondary);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
 }
 
-@media (min-width: 768px ) {
-    .post-body {
-        width: 500px;
-    }
-}
-
 .post-img-container {
-    min-width: 250px;
     height: 220px;
+    min-width: 250px;
+    max-width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .post-img-container {
-        width: 300px;
+        max-width: 250px;
     }
 }
 
@@ -31,7 +24,7 @@
     border-radius: 0 0 10px 10px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .post-img-container img {
         border-radius: 10px 0 0 10px;
     }

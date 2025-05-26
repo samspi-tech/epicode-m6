@@ -14,7 +14,7 @@ export const BlogPostProvider = ({ children }) => {
         setIsLoading(true);
         try {
             const response = await fetch(
-                `http://localhost:9099/blogPosts/?pageSize=3&page=${page}`,
+                `http://localhost:9099/blogPosts/?pageSize=4&page=${page}`,
             );
             const data = await response.json();
             setData(data);

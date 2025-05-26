@@ -6,18 +6,26 @@ const Post = ({ post }) => {
     const username = email.split('@')[0];
 
     return (
-        <Col className="post-container d-flex flex-column flex-md-row mx-2 mx-md-0">
-            <div className="post-img-container order-1 order-md-0">
+        <Col
+            sm={8}
+            lg={9}
+            xl={8}
+            className="post-container d-flex flex-column flex-lg-row mx-2 mx-md-0"
+        >
+            <div className="post-img-container order-1 order-lg-0">
                 <img src={cover} alt="Post image" />
             </div>
-            <div className="post-body d-flex flex-column justify-content-between p-3">
+            <div className="post-body d-flex flex-column justify-content-between p-3 w-100">
                 <div>
                     <h3 className="fw-bold">{title}</h3>
                     <p className="ellipsis">{content}</p>
                 </div>
                 <div className="d-flex justify-content-between">
                     <small>
-                        In <span className="text-dark fw-bold">{category}</span>{' '}
+                        In{' '}
+                        <span className="text-capitalize text-dark fw-bold">
+                            {category}
+                        </span>{' '}
                         by{' '}
                         <span className="text-capitalize text-dark fw-bold">
                             {username}
