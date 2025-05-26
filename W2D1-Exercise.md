@@ -1,4 +1,4 @@
-# W2D1 — Query di MondoDB
+# W2D1 — Query di MongoDB
 
 1. ### Trova tutte le risorse con il dato isActive corrispondente a true
 
