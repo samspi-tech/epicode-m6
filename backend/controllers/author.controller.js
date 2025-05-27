@@ -1,7 +1,8 @@
-const authorsService = require('../services/author.service');
 const { isArrayEmpty } = require('../utils/array');
+const authorsService = require('../services/author.service');
+const AuthorsNotFound = require('../exceptions/authors/authorsNotFoundException');
 
-const getAllAuthors = async (req, res) => {
+const getAllAuthors = async (req, res, next) => {
     try {
         const {
             page = 1,
@@ -14,10 +15,7 @@ const getAllAuthors = async (req, res) => {
             await authorsService.findAllAuthors(page, pageSize, field, order);
 
         if (isArrayEmpty(authors)) {
-            return res.status(404).send({
-                statusCode: 404,
-                message: 'No author found',
-            });
+            throw new AuthorsNotFound();
         }
 
         res.status(200).send({
@@ -31,24 +29,17 @@ const getAllAuthors = async (req, res) => {
             order,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 
-const getSingleAuthor = async (req, res) => {
+const getSingleAuthor = async (req, res, next) => {
     try {
         const { id } = req.params;
         const author = await authorsService.findSingleAuthor(id);
 
         if (!author) {
-            return res.status(404).send({
-                statusCode: 404,
-                message: 'No author found',
-            });
+            throw new AuthorsNotFound();
         }
 
         res.status(200).send({
@@ -56,11 +47,7 @@ const getSingleAuthor = async (req, res) => {
             author,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 

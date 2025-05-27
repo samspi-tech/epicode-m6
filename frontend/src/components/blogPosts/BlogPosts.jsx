@@ -9,7 +9,7 @@ import { SearchPostContext } from '../../contexts/SearchPostContext.jsx';
 
 const BlogPosts = () => {
     const { query } = useContext(SearchPostContext);
-    const { blogPosts, error, isLoading } = useContext(BlogPostContext);
+    const { data, error, isLoading } = useContext(BlogPostContext);
 
     return (
         <Container>
@@ -22,8 +22,8 @@ const BlogPosts = () => {
                 )}
                 {!isLoading &&
                     !error &&
-                    blogPosts &&
-                    blogPosts.length === 0 && (
+                    data &&
+                    data.blogPosts.length === 0 && (
                         <CustomAlert
                             alert="Oops!"
                             text={`Can't find post by "${query}"`}
@@ -31,8 +31,8 @@ const BlogPosts = () => {
                     )}
                 {!isLoading &&
                     !error &&
-                    blogPosts &&
-                    blogPosts.map((post) => (
+                    data &&
+                    data.blogPosts.map((post) => (
                         <Post key={post._id} post={post} />
                     ))}
             </Row>

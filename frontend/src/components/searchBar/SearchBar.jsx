@@ -7,25 +7,27 @@ import { SearchPostContext } from '../../contexts/SearchPostContext.jsx';
 
 const SearchBar = () => {
     const { query, handleInputChange } = useContext(SearchPostContext);
-    const { data, page, setData, getAllBlogPosts } =
+    const { page, title, setTitle, getAllBlogPosts } =
         useContext(BlogPostContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const filteredPost = data.blogPosts.filter((post) => {
-            const { title } = post;
-            const postTitle = title.trim().toLowerCase();
-            const searchQuery = query.trim().toLowerCase();
-
-            return postTitle.includes(searchQuery);
-        });
-        setData(filteredPost);
+        const searchQuery = query.trim();
+        setTitle(searchQuery);
     };
 
     useEffect(() => {
-        query === '' && getAllBlogPosts(page);
-    }, [query, page]);
+        const getData = setTimeout(() => {
+            getAllBlogPosts(page);
+        }, 500);
+
+        query === '' && setTitle('') && getAllBlogPosts(page);
+
+        return () => {
+            clearTimeout(getData);
+        };
+    }, [page, title, query]);
 
     return (
         <Form onSubmit={handleSubmit}>

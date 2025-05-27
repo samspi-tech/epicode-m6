@@ -1,9 +1,10 @@
-const blogPostsService = require('../services/blogPost.service');
 const { isArrayEmpty } = require('../utils/array');
+const blogPostsService = require('../services/blogPost.service');
 
 const getAllBlogPosts = async (req, res) => {
     try {
         const {
+            q,
             page = 1,
             pageSize = 10,
             field = 'category',
@@ -12,6 +13,7 @@ const getAllBlogPosts = async (req, res) => {
 
         const { blogPosts, totalPages, totalBlogPosts } =
             await blogPostsService.findAllBlogPosts(
+                q,
                 page,
                 pageSize,
                 field,
@@ -49,7 +51,7 @@ const getSingleBlogPost = async (req, res) => {
         const { id } = req.params;
         const post = await blogPostsService.findSingleBlogPost(id);
 
-        if (!post) {
+        if (isArrayEmpty(post)) {
             return res.status(404).send({
                 statusCode: 404,
                 message: 'Post not found',

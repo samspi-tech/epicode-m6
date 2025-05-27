@@ -4,17 +4,18 @@ export const BlogPostContext = createContext();
 
 export const BlogPostProvider = ({ children }) => {
     const [page, setPage] = useState(1);
+    const [title, setTitle] = useState('');
     const [data, setData] = useState(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const blogPosts = data && data.blogPosts ? data.blogPosts : data;
+    console.log(title);
 
     const getAllBlogPosts = async () => {
         setIsLoading(true);
         try {
             const response = await fetch(
-                `http://localhost:9099/blogPosts/?pageSize=4&page=${page}`,
+                `http://localhost:9099/blogPosts/title?q=${title}&pageSize=4&page=${page}`
             );
             const data = await response.json();
             setData(data);
@@ -31,7 +32,7 @@ export const BlogPostProvider = ({ children }) => {
         author: '',
         content: '',
         category: '',
-        readTime: { value: 1 },
+        readTime: { value: 1 }
     });
 
     const handleBlogPostCreation = (e) => {
@@ -39,14 +40,14 @@ export const BlogPostProvider = ({ children }) => {
 
         setPayload({
             ...payload,
-            [name]: value,
+            [name]: value
         });
     };
 
     const handleNestedObj = (e) => {
         setPayload({
             ...payload,
-            readTime: { value: Number(e.target.value) },
+            readTime: { value: Number(e.target.value) }
         });
     };
 
@@ -59,9 +60,9 @@ export const BlogPostProvider = ({ children }) => {
                     method: 'POST',
                     body: JSON.stringify(payload),
                     headers: {
-                        'Content-type': 'application/json',
-                    },
-                },
+                        'Content-type': 'application/json'
+                    }
+                }
             );
             return await response.json();
         } catch (e) {
@@ -76,8 +77,9 @@ export const BlogPostProvider = ({ children }) => {
         <BlogPostContext.Provider
             value={{
                 data,
-                blogPosts,
                 setData,
+                title,
+                setTitle,
                 error,
                 isLoading,
                 getAllBlogPosts,
@@ -86,7 +88,7 @@ export const BlogPostProvider = ({ children }) => {
                 payload,
                 createBlogPost,
                 handleNestedObj,
-                handleBlogPostCreation,
+                handleBlogPostCreation
             }}
         >
             {children}
