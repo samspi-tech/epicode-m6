@@ -1,7 +1,8 @@
 const { isArrayEmpty } = require('../utils/array');
 const blogPostsService = require('../services/blogPost.service');
+const BlogPostNotFound = require('../exceptions/blogPosts/blogPostsNotFoundException');
 
-const getAllBlogPosts = async (req, res) => {
+const getAllBlogPosts = async (req, res, next) => {
     try {
         const {
             q,
@@ -21,10 +22,7 @@ const getAllBlogPosts = async (req, res) => {
             );
 
         if (isArrayEmpty(blogPosts)) {
-            return res.status(404).send({
-                statusCode: 404,
-                message: 'Posts not found',
-            });
+            throw new BlogPostNotFound();
         }
 
         res.status(200).send({
@@ -38,24 +36,17 @@ const getAllBlogPosts = async (req, res) => {
             order,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 
-const getSingleBlogPost = async (req, res) => {
+const getSingleBlogPost = async (req, res, next) => {
     try {
         const { id } = req.params;
         const post = await blogPostsService.findSingleBlogPost(id);
 
-        if (isArrayEmpty(post)) {
-            return res.status(404).send({
-                statusCode: 404,
-                message: 'Post not found',
-            });
+        if (!post) {
+            throw new BlogPostNotFound();
         }
 
         res.status(200).send({
@@ -63,11 +54,7 @@ const getSingleBlogPost = async (req, res) => {
             post,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 
@@ -90,17 +77,14 @@ const createBlogPost = async (req, res) => {
     }
 };
 
-const updateBlogPost = async (req, res) => {
+const updateBlogPost = async (req, res, next) => {
     try {
         const { body } = req;
         const { id } = req.params;
         const post = await blogPostsService.updateBlogPost(id, body);
 
         if (!post) {
-            return res.status(404).send({
-                statusCode: 404,
-                message: 'Post not found',
-            });
+            throw new BlogPostNotFound();
         }
 
         res.status(200).send({
@@ -109,24 +93,17 @@ const updateBlogPost = async (req, res) => {
             post,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 
-const deleteBlogPost = async (req, res) => {
+const deleteBlogPost = async (req, res, next) => {
     try {
         const { id } = req.params;
         const post = await blogPostsService.deleteBlogPost(id);
 
         if (!post) {
-            return res.status(404).send({
-                statusCode: 404,
-                message: 'Post not found',
-            });
+            throw new BlogPostNotFound();
         }
 
         res.status(200).send({
@@ -135,11 +112,7 @@ const deleteBlogPost = async (req, res) => {
             post,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 

@@ -70,17 +70,14 @@ const createAuthor = async (req, res) => {
     }
 };
 
-const updateAuthor = async (req, res) => {
+const updateAuthor = async (req, res, next) => {
     try {
         const { body } = req;
         const { id } = req.params;
         const author = await authorsService.updateAuthor(id, body);
 
         if (!author) {
-            return res.status(404).send({
-                statusCode: 404,
-                message: 'Author not found',
-            });
+            throw new AuthorsNotFound();
         }
 
         res.status(200).send({
@@ -89,24 +86,17 @@ const updateAuthor = async (req, res) => {
             author,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 
-const deleteAuthor = async (req, res) => {
+const deleteAuthor = async (req, res, next) => {
     try {
         const { id } = req.params;
         const author = await authorsService.deleteAuthor(id);
 
         if (!author) {
-            return res.status(404).send({
-                statusCode: 404,
-                message: 'Author not found',
-            });
+            throw new AuthorsNotFound();
         }
 
         res.status(200).send({
@@ -115,11 +105,7 @@ const deleteAuthor = async (req, res) => {
             author,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 

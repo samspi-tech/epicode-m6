@@ -2,9 +2,9 @@ const HTTPException = require('../index');
 
 class AuthorsNotFoundException extends HTTPException {
     constructor(
-        message = 'Authors not found',
         statusCode = 404,
-        error = 'Not authors found in this collection',
+        message = 'No authors found in this collection',
+        error = 'Authors not found',
     ) {
         super(message, statusCode, error);
     }
