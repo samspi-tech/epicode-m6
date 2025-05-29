@@ -2,6 +2,9 @@ const { isArrayEmpty } = require('../utils/array');
 const blogPostsService = require('../services/blogPost.service');
 const BlogPostNotFound = require('../exceptions/blogPosts/blogPostsNotFoundException');
 
+const EmailService = require('../services/email.service');
+const email = new EmailService();
+
 const getAllBlogPosts = async (req, res, next) => {
     try {
         const {
@@ -58,10 +61,17 @@ const getSingleBlogPost = async (req, res, next) => {
     }
 };
 
-const createBlogPost = async (req, res) => {
+const createBlogPost = async (req, res, next) => {
     try {
         const { body } = req;
+        const { author: recipient } = body;
         const post = await blogPostsService.createBlogPost(body);
+
+        await email.send(
+            `${recipient}`,
+            'Blog Post Creation',
+            'Thank you for sharing your thoughts!',
+        );
 
         res.status(201).send({
             statusCode: 201,
@@ -69,11 +79,7 @@ const createBlogPost = async (req, res) => {
             post,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 

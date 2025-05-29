@@ -51,7 +51,7 @@ const getSingleAuthor = async (req, res, next) => {
     }
 };
 
-const createAuthor = async (req, res) => {
+const createAuthor = async (req, res, next) => {
     try {
         const { body } = req;
         const author = await authorsService.createAuthor(body);
@@ -62,11 +62,7 @@ const createAuthor = async (req, res) => {
             author,
         });
     } catch (e) {
-        res.status(500).send({
-            statusCode: 500,
-            message: 'Internal server error',
-            error: e.message,
-        });
+        next(e);
     }
 };
 

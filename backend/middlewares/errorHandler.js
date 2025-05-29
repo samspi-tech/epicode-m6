@@ -11,9 +11,12 @@ const errorHandler = (err, req, res, next) => {
     }
 
     if (err.code === 11000) {
+        const [[key, value]] = Object.entries(err.keyValue);
+        const field = key.slice(0, 1).toUpperCase() + key.slice(1);
+
         return res.status(400).send({
             statusCode: 400,
-            message: 'Field already exists, please try something different',
+            message: `${field} '${value}' already exists, please try something different`,
             error: 'Duplicate field',
         });
     }
