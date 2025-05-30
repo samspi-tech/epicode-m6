@@ -11,23 +11,28 @@ const getAllAuthors = async (req, res, next) => {
             order = 'asc',
         } = req.query;
 
-        const { authors, totalAuthors, totalPages } =
-            await authorsService.findAllAuthors(page, pageSize, field, order);
+        const {
+            authors,
+            totalAuthors,
+            totalPages
+        } = await authorsService.findAllAuthors(page, pageSize, field, order);
 
         if (isArrayEmpty(authors)) {
             throw new AuthorsNotFound();
         }
 
-        res.status(200).send({
-            statusCode: 200,
-            authors,
-            page,
-            pageSize,
-            totalAuthors,
-            totalPages,
-            field,
-            order,
-        });
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                authors,
+                page,
+                pageSize,
+                totalAuthors,
+                totalPages,
+                field,
+                order,
+            });
     } catch (e) {
         next(e);
     }
@@ -42,10 +47,12 @@ const getSingleAuthor = async (req, res, next) => {
             throw new AuthorsNotFound();
         }
 
-        res.status(200).send({
-            statusCode: 200,
-            author,
-        });
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                author,
+            });
     } catch (e) {
         next(e);
     }
@@ -56,11 +63,13 @@ const createAuthor = async (req, res, next) => {
         const { body } = req;
         const author = await authorsService.createAuthor(body);
 
-        res.status(201).send({
-            statusCode: 201,
-            message: 'Author created successfully',
-            author,
-        });
+        res
+            .status(201)
+            .send({
+                statusCode: 201,
+                message: 'Author created successfully',
+                author,
+            });
     } catch (e) {
         next(e);
     }
@@ -76,11 +85,13 @@ const updateAuthor = async (req, res, next) => {
             throw new AuthorsNotFound();
         }
 
-        res.status(200).send({
-            statusCode: 200,
-            message: 'Author updated successfully',
-            author,
-        });
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                message: 'Author updated successfully',
+                author,
+            });
     } catch (e) {
         next(e);
     }
@@ -95,11 +106,13 @@ const deleteAuthor = async (req, res, next) => {
             throw new AuthorsNotFound();
         }
 
-        res.status(200).send({
-            statusCode: 200,
-            message: 'Author deleted successfully',
-            author,
-        });
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                message: 'Author deleted successfully',
+                author,
+            });
     } catch (e) {
         next(e);
     }

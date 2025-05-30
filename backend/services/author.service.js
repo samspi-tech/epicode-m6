@@ -5,7 +5,8 @@ const findAllAuthors = async (page, pageSize, field, order) => {
     const totalAuthors = await AuthorsSchema.countDocuments();
     const totalPages = calcTotalPages(totalAuthors, pageSize);
 
-    const authors = await AuthorsSchema.find()
+    const authors = await AuthorsSchema
+        .find()
         .sort(orderDirection(field, order))
         .limit(pageSize)
         .skip(calcSkip(page, pageSize));

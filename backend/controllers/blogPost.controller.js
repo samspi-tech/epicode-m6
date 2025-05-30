@@ -15,29 +15,34 @@ const getAllBlogPosts = async (req, res, next) => {
             order = 'asc',
         } = req.query;
 
-        const { blogPosts, totalPages, totalBlogPosts } =
-            await blogPostsService.findAllBlogPosts(
-                q,
-                page,
-                pageSize,
-                field,
-                order,
-            );
+        const {
+            blogPosts,
+            totalPages,
+            totalBlogPosts
+        } = await blogPostsService.findAllBlogPosts(
+            q,
+            page,
+            pageSize,
+            field,
+            order,
+        );
 
         if (isArrayEmpty(blogPosts)) {
             throw new BlogPostNotFound();
         }
 
-        res.status(200).send({
-            statusCode: 200,
-            blogPosts,
-            page,
-            pageSize,
-            totalPages,
-            totalBlogPosts,
-            field,
-            order,
-        });
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                blogPosts,
+                page,
+                pageSize,
+                totalPages,
+                totalBlogPosts,
+                field,
+                order,
+            });
     } catch (e) {
         next(e);
     }
@@ -52,10 +57,12 @@ const getSingleBlogPost = async (req, res, next) => {
             throw new BlogPostNotFound();
         }
 
-        res.status(200).send({
-            statusCode: 200,
-            post,
-        });
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                post,
+            });
     } catch (e) {
         next(e);
     }
@@ -73,11 +80,13 @@ const createBlogPost = async (req, res, next) => {
             'Thank you for sharing your thoughts!',
         );
 
-        res.status(201).send({
-            statusCode: 201,
-            message: 'Post created successfully',
-            post,
-        });
+        res
+            .status(201)
+            .send({
+                statusCode: 201,
+                message: 'Post created successfully',
+                post,
+            });
     } catch (e) {
         next(e);
     }
@@ -93,11 +102,13 @@ const updateBlogPost = async (req, res, next) => {
             throw new BlogPostNotFound();
         }
 
-        res.status(200).send({
-            statusCode: 200,
-            message: 'Post updated successfully',
-            post,
-        });
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                message: 'Post updated successfully',
+                post,
+            });
     } catch (e) {
         next(e);
     }
@@ -112,11 +123,13 @@ const deleteBlogPost = async (req, res, next) => {
             throw new BlogPostNotFound();
         }
 
-        res.status(200).send({
-            statusCode: 200,
-            message: 'Post deleted successfully',
-            post,
-        });
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                message: 'Post deleted successfully',
+                post,
+            });
     } catch (e) {
         next(e);
     }

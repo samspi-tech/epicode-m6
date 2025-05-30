@@ -11,13 +11,18 @@ const blogPostBodyValidation = [
         .withMessage("Title can't be empty or longer than 100 chars")
         .isString()
         .withMessage('Title must be a string'),
-    body('cover').optional().isURL().withMessage('Cover must be a valid URL'),
+    body('cover')
+        .optional()
+        .isURL()
+        .withMessage('Cover must be a valid URL'),
     body('readTime.value')
         .notEmpty()
         .withMessage("Value can't be empty")
         .isInt()
         .withMessage('Value must be an integer number'),
-    body('author').isEmail().withMessage('Author must be a valid email'),
+    body('author')
+        .isEmail()
+        .withMessage('Author must be a valid email'),
     body('content')
         .notEmpty()
         .withMessage("Content can't be empty")
@@ -29,9 +34,14 @@ const blogPostBodyValidator = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).send({ ...errors });
+        return res
+            .status(400)
+            .send({ ...errors });
     }
     next();
 };
 
-module.exports = { blogPostBodyValidation, blogPostBodyValidator };
+module.exports = {
+    blogPostBodyValidation,
+    blogPostBodyValidator
+};

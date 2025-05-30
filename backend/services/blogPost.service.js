@@ -5,12 +5,13 @@ const findAllBlogPosts = async (title, page, pageSize, field, order) => {
     const totalBlogPosts = await BlogPostSchema.countDocuments();
     const totalPages = calcTotalPages(totalBlogPosts, pageSize);
 
-    const blogPosts = await BlogPostSchema.find({
-        title: {
-            $regex: `${title}`,
-            $options: 'i',
-        },
-    })
+    const blogPosts = await BlogPostSchema
+        .find({
+            title: {
+                $regex: `${title}`,
+                $options: 'i',
+            },
+        })
         .sort(orderDirection(field, order))
         .limit(pageSize)
         .skip(calcSkip(page, pageSize));

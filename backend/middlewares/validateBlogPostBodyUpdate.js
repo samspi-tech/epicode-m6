@@ -13,7 +13,10 @@ const updateBlogPostBodyValidation = [
         .withMessage("Title can't be empty")
         .isString()
         .withMessage('Title must be a string'),
-    body('cover').optional().isURL().withMessage('Cover must be a valid URL'),
+    body('cover')
+        .optional()
+        .isURL()
+        .withMessage('Cover must be a valid URL'),
     body('readTime.value')
         .optional()
         .isLength({ min: 1 })
@@ -36,9 +39,14 @@ const updateBlogPostBodyValidator = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).send({ ...errors });
+        return res
+            .status(400)
+            .send({ ...errors });
     }
     next();
 };
 
-module.exports = { updateBlogPostBodyValidation, updateBlogPostBodyValidator };
+module.exports = {
+    updateBlogPostBodyValidation,
+    updateBlogPostBodyValidator
+};
