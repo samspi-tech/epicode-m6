@@ -19,13 +19,7 @@ const getAllBlogPosts = async (req, res, next) => {
             blogPosts,
             totalPages,
             totalBlogPosts
-        } = await blogPostsService.findAllBlogPosts(
-            q,
-            page,
-            pageSize,
-            field,
-            order,
-        );
+        } = await blogPostsService.findAllBlogPosts(q, page, pageSize, field, order);
 
         if (isArrayEmpty(blogPosts)) {
             throw new BlogPostNotFound();

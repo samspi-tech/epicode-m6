@@ -13,8 +13,8 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-server.use('/', authorsRoute);
-server.use('/', blogPostsRoute);
+server.use('/authors', authorsRoute);
+server.use('/blogPosts', blogPostsRoute);
 
 server.use(errorHandler);
 

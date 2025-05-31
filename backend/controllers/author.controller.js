@@ -1,3 +1,5 @@
+require('dotenv').config();
+const jsonWebToken = require('jsonwebtoken');
 const { isArrayEmpty } = require('../utils/array');
 const authorsService = require('../services/author.service');
 const AuthorsNotFound = require('../exceptions/authors/authorsNotFoundException');
@@ -7,7 +9,7 @@ const getAllAuthors = async (req, res, next) => {
         const {
             page = 1,
             pageSize = 10,
-            field = 'avatar',
+            field = 'firstName',
             order = 'asc',
         } = req.query;
 
@@ -61,17 +63,24 @@ const getSingleAuthor = async (req, res, next) => {
 const createAuthor = async (req, res, next) => {
     try {
         const { body } = req;
-        const author = await authorsService.createAuthor(body);
+        const newAuthor = await authorsService.createAuthor(body);
+
+        const token = jsonWebToken.sign(
+            { id: newAuthor._id }, process.env.JSON_WEB_TOKEN_SECRET,
+            { expiresIn: process.env.JSON_WEB_TOKEN_EXPIRES_IN }
+        );
 
         res
             .status(201)
             .send({
                 statusCode: 201,
                 message: 'Author created successfully',
-                author,
+                token,
+                newAuthor,
             });
     } catch (e) {
         next(e);
+        console.log(e);
     }
 };
 
@@ -87,6 +96,7 @@ const updateAuthor = async (req, res, next) => {
 
         res
             .status(200)
+            .json(req.file)
             .send({
                 statusCode: 200,
                 message: 'Author updated successfully',
@@ -94,6 +104,7 @@ const updateAuthor = async (req, res, next) => {
             });
     } catch (e) {
         next(e);
+        console.log(e);
     }
 };
 

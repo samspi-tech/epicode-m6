@@ -1,22 +1,24 @@
 const {
     authorBodyValidation,
     authorBodyValidator,
-} = require('../middlewares/validateAuthorBody');
+} = require('../middlewares/authors/validateAuthorBody');
 
 const {
     updateAuthorBodyValidation,
     updateAuthorBodyValidator,
-} = require('../middlewares/validateAuthorBodyUpdate');
+} = require('../middlewares/authors/validateAuthorBodyUpdate');
 
 const {
     blogPostBodyValidation,
     blogPostBodyValidator,
-} = require('../middlewares/validateBlogPostBody');
+} = require('../middlewares/blogPosts/validateBlogPostBody');
 
 const {
     updateBlogPostBodyValidation,
     updateBlogPostBodyValidator,
-} = require('../middlewares/validateBlogPostBodyUpdate');
+} = require('../middlewares/blogPosts/validateBlogPostBodyUpdate');
+
+const parser = require("../middlewares/multer/uploadMiddleware");
 
 const validation = (middleware) => {
     switch (middleware) {
@@ -24,7 +26,7 @@ const validation = (middleware) => {
             return [authorBodyValidation, authorBodyValidator];
         }
         case 'updateAuthor': {
-            return [updateAuthorBodyValidation, updateAuthorBodyValidator];
+            return [updateAuthorBodyValidation, updateAuthorBodyValidator, parser.single('avatar')];
         }
         case 'createBlogPost': {
             return [blogPostBodyValidation, blogPostBodyValidator];

@@ -1,12 +1,13 @@
 const express = require('express');
 const authors = express.Router();
 const validation = require('../utils/validation');
-const usersController = require('../controllers/author.controller');
+const authorsController = require('../controllers/author.controller');
 
-authors.get('/authors', usersController.getAllAuthors);
-authors.get('/authors/:id', usersController.getSingleAuthor);
-authors.post('/authors/create', validation('createAuthor'), usersController.createAuthor);
-authors.patch('/authors/update/:id', validation('updateAuthor'), usersController.updateAuthor);
-authors.delete('/authors/delete/:id', usersController.deleteAuthor);
+
+authors.get('/', authorsController.getAllAuthors);
+authors.get('/:id', authorsController.getSingleAuthor);
+authors.post('/create', validation('createAuthor'), authorsController.createAuthor);
+authors.patch('/update/:id', validation('updateAuthor'), authorsController.updateAuthor);
+authors.delete('/delete/:id', authorsController.deleteAuthor);
 
 module.exports = authors;

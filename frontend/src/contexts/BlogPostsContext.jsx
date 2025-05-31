@@ -1,28 +1,34 @@
-import { createContext, useState } from 'react';
+import { createContext, useReducer, useState } from 'react';
+import { initialState, blogPostReducer } from '../reducers/blogPostsReducer.js';
 
 export const BlogPostContext = createContext();
 
 export const BlogPostProvider = ({ children }) => {
-    const [page, setPage] = useState(1);
+    // const [page, setPage] = useState(1);
     const [title, setTitle] = useState('');
-    const [data, setData] = useState(null);
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-
-    console.log(title);
+    const [state, dispatch] = useReducer(blogPostReducer, initialState);
+    const { page } = state;
 
     const getAllBlogPosts = async () => {
-        setIsLoading(true);
         try {
             const response = await fetch(
-                `http://localhost:9099/blogPosts/title?q=${title}&pageSize=4&page=${page}`
+                `http://localhost:9099/blogPosts/title?q=${title}&pageSize=1&page=${page}`
             );
             const data = await response.json();
-            setData(data);
+
+            if (!response.ok) {
+                throw new Error(`${response.status} ${response.statusText}`);
+            }
+
+            dispatch({
+                type: 'dataReceived',
+                payload: data
+            });
         } catch (e) {
-            setError(e.message);
-        } finally {
-            setIsLoading(false);
+            dispatch({
+                type: 'dataFailed',
+                message: e.message
+            });
         }
     };
 
@@ -52,7 +58,6 @@ export const BlogPostProvider = ({ children }) => {
     };
 
     const createBlogPost = async () => {
-        setIsLoading(true);
         try {
             const response = await fetch(
                 'http://localhost:9099/blogPosts/create',
@@ -64,11 +69,14 @@ export const BlogPostProvider = ({ children }) => {
                     }
                 }
             );
+
             return await response.json();
         } catch (e) {
-            setError(e.message);
+            dispatch({
+                type: 'dataFailed',
+                payload: e.message
+            });
         } finally {
-            setIsLoading(false);
             getAllBlogPosts();
         }
     };
@@ -76,15 +84,12 @@ export const BlogPostProvider = ({ children }) => {
     return (
         <BlogPostContext.Provider
             value={{
-                data,
-                setData,
+                state,
+                dispatch,
                 title,
                 setTitle,
-                error,
-                isLoading,
                 getAllBlogPosts,
                 page,
-                setPage,
                 payload,
                 createBlogPost,
                 handleNestedObj,

@@ -7,8 +7,7 @@ import { SearchPostContext } from '../../contexts/SearchPostContext.jsx';
 
 const SearchBar = () => {
     const { query, handleInputChange } = useContext(SearchPostContext);
-    const { page, title, setTitle, getAllBlogPosts } =
-        useContext(BlogPostContext);
+    const { page, title, setTitle, getAllBlogPosts } = useContext(BlogPostContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,16 +17,10 @@ const SearchBar = () => {
     };
 
     useEffect(() => {
-        const getData = setTimeout(() => {
-            getAllBlogPosts(page);
-        }, 500);
+        getAllBlogPosts();
 
-        query === '' && setTitle('') && getAllBlogPosts(page);
-
-        return () => {
-            clearTimeout(getData);
-        };
-    }, [page, title, query]);
+        query === '' && setTitle('') && getAllBlogPosts();
+    }, [page, title]);
 
     return (
         <Form onSubmit={handleSubmit}>

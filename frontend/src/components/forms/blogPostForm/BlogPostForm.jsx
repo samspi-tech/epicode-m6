@@ -1,7 +1,7 @@
 import './blogPostForm.css';
 import { useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { BlogPostContext } from '../../contexts/BlogPostsContext.jsx';
+import { BlogPostContext } from '../../../contexts/BlogPostsContext.jsx';
 
 const BlogPostForm = () => {
     const { payload, handleBlogPostCreation, handleNestedObj, createBlogPost } =

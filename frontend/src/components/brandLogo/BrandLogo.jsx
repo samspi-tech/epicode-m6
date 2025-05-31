@@ -2,7 +2,7 @@ import './brandLogo.css';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/epicodeLogo.jpeg';
 
-const BrandLogo = () => {
+const BrandLogo = ({ w = 35, h = 35, fsLogo }) => {
     return (
         <Link
             to="/"
@@ -13,9 +13,11 @@ const BrandLogo = () => {
                     src={logo}
                     alt="Epiblog logo"
                     className="img-fluid nav-logo"
+                    width={w}
+                    height={h}
                 />
             </div>
-            <h2 className="mb-0">Epiblog</h2>
+            <h2 className={`mb-0 logo-name ${fsLogo}`}>Epiblog</h2>
         </Link>
     );
 };

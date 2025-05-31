@@ -1,12 +1,12 @@
 import BaseLayout from '../baseLayout/BaseLayout.jsx';
 import PageNotFound from '../components/pageNotFound/PageNotFound.jsx';
 
-const NotFound = () => {
+const NotFoundPage = () => {
     return (
         <BaseLayout>
-            <PageNotFound />
+            <PageNotFound/>
         </BaseLayout>
     );
 };
 
-export default NotFound;
+export default NotFoundPage;

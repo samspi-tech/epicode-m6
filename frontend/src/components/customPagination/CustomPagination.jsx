@@ -3,18 +3,24 @@ import { Button } from 'react-bootstrap';
 import { BlogPostContext } from '../../contexts/BlogPostsContext.jsx';
 
 const CustomPagination = () => {
-    const { data, page, setPage } = useContext(BlogPostContext);
+    const { state, page, dispatch } = useContext(BlogPostContext);
+
+    const { data } = state;
     const totalPages = data && data.totalPages;
 
     const handleNextPage = () => {
         if (page < totalPages) {
-            setPage((prev) => prev + 1);
+            dispatch({
+                type: 'nextPage'
+            });
         }
     };
 
     const handlePrevPage = () => {
         if (page > 1) {
-            setPage((prev) => prev - 1);
+            dispatch({
+                type: 'prevPage'
+            });
         }
     };
 
