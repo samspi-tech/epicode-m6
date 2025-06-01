@@ -18,8 +18,8 @@ const findAllAuthors = async (page, pageSize, field, order) => {
     };
 };
 
-const findSingleAuthor = async (id) => {
-    return AuthorsSchema.findById(id);
+const findSingleAuthor = async (param) => {
+    return AuthorsSchema.findOne(param);
 };
 
 const createAuthor = async (author) => {

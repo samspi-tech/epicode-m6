@@ -1,7 +1,9 @@
-require('dotenv').config();
-const jsonWebToken = require('jsonwebtoken');
+const Author = require('../models/authors');
 const { isArrayEmpty } = require('../utils/array');
+const signupToken = require('../utils/signupToken');
 const authorsService = require('../services/author.service');
+const WrongLoginInput = require('../exceptions/authors/wrongLoginInput');
+const MissingLoginInput = require('../exceptions/authors/missingLoginInput');
 const AuthorsNotFound = require('../exceptions/authors/authorsNotFoundException');
 
 const getAllAuthors = async (req, res, next) => {
@@ -42,8 +44,8 @@ const getAllAuthors = async (req, res, next) => {
 
 const getSingleAuthor = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const author = await authorsService.findSingleAuthor(id);
+        const { _id } = req.params;
+        const author = await authorsService.findSingleAuthor(_id);
 
         if (!author) {
             throw new AuthorsNotFound();
@@ -64,11 +66,7 @@ const createAuthor = async (req, res, next) => {
     try {
         const { body } = req;
         const newAuthor = await authorsService.createAuthor(body);
-
-        const token = jsonWebToken.sign(
-            { id: newAuthor._id }, process.env.JSON_WEB_TOKEN_SECRET,
-            { expiresIn: process.env.JSON_WEB_TOKEN_EXPIRES_IN }
-        );
+        const token = signupToken(newAuthor._id);
 
         res
             .status(201)
@@ -80,7 +78,39 @@ const createAuthor = async (req, res, next) => {
             });
     } catch (e) {
         next(e);
-        console.log(e);
+    }
+};
+
+const loginAuthor = async (req, res, next) => {
+    try {
+        const { body } = req;
+        const { email, password } = body;
+
+        if (!email || !password) {
+            throw new MissingLoginInput();
+        }
+
+        const author = await Author.findOne({ email }).select('+password');
+        
+        const {
+            _id: authorId,
+            password: authorPassword
+        } = author;
+
+        if (!author || !(await author.correctPassword(password, authorPassword))) {
+            throw new WrongLoginInput();
+        }
+
+        const token = signupToken(authorId);
+
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                token
+            });
+    } catch (e) {
+        next(e);
     }
 };
 
@@ -104,7 +134,6 @@ const updateAuthor = async (req, res, next) => {
             });
     } catch (e) {
         next(e);
-        console.log(e);
     }
 };
 
@@ -133,6 +162,7 @@ module.exports = {
     getAllAuthors,
     getSingleAuthor,
     createAuthor,
+    loginAuthor,
     updateAuthor,
     deleteAuthor,
 };

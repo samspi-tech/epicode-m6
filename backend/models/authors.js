@@ -23,7 +23,8 @@ const AuthorsSchema = new mongoose.Schema(
         password: {
             type: String,
             required: true,
-            minLength: 8
+            minLength: 8,
+            select: false
         },
         passwordConfirm: {
             type: String,
@@ -49,5 +50,9 @@ AuthorsSchema.pre('save', async function (next) {
     this.passwordConfirm = undefined;
     next();
 });
+
+AuthorsSchema.methods.correctPassword = async (candidatePassword, userPassword) => {
+    return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 module.exports = mongoose.model('author', AuthorsSchema, 'authors');
