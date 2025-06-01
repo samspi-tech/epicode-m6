@@ -7,19 +7,20 @@ import { SearchPostContext } from '../../contexts/SearchPostContext.jsx';
 
 const SearchBar = () => {
     const { query, handleInputChange } = useContext(SearchPostContext);
-    const { page, title, setTitle, getAllBlogPosts } = useContext(BlogPostContext);
+    const { page, title, dispatch, getAllBlogPosts } = useContext(BlogPostContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const searchQuery = query.trim();
-        setTitle(searchQuery);
+        const searchQuery = query.trim().toLowerCase();
+        dispatch({
+            type: 'searchBlogPost',
+            query: searchQuery
+        });
     };
 
     useEffect(() => {
         getAllBlogPosts();
-
-        query === '' && setTitle('') && getAllBlogPosts();
     }, [page, title]);
 
     return (

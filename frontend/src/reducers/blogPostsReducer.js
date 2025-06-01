@@ -1,8 +1,17 @@
 export const initialState = {
     data: null,
-    message: '',
     status: 'loading',
-    page: 1
+    message: '',
+    page: 1,
+    title: '',
+    payload: {
+        cover: '',
+        title: '',
+        author: '',
+        content: '',
+        category: '',
+        readTime: { value: 1 }
+    }
 };
 
 export const blogPostReducer = (state, action) => {
@@ -19,6 +28,18 @@ export const blogPostReducer = (state, action) => {
                 ...state,
                 status: 'error',
                 message: action.message
+            };
+
+        case 'setPayload':
+            return {
+                ...state,
+                payload: action.payload
+            };
+
+        case 'searchBlogPost':
+            return {
+                ...state,
+                title: action.query
             };
 
         case 'nextPage':

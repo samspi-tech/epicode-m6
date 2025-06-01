@@ -1,18 +1,16 @@
-import { createContext, useReducer, useState } from 'react';
+import { createContext, useReducer } from 'react';
 import { initialState, blogPostReducer } from '../reducers/blogPostsReducer.js';
 
 export const BlogPostContext = createContext();
 
 export const BlogPostProvider = ({ children }) => {
-    // const [page, setPage] = useState(1);
-    const [title, setTitle] = useState('');
     const [state, dispatch] = useReducer(blogPostReducer, initialState);
-    const { page } = state;
+    const { page, title, payload } = state;
 
     const getAllBlogPosts = async () => {
         try {
             const response = await fetch(
-                `http://localhost:9099/blogPosts/title?q=${title}&pageSize=1&page=${page}`
+                `http://localhost:9099/blogPosts/title?q=${title}&pageSize=3&page=${page}`
             );
             const data = await response.json();
 
@@ -30,31 +28,6 @@ export const BlogPostProvider = ({ children }) => {
                 message: e.message
             });
         }
-    };
-
-    const [payload, setPayload] = useState({
-        cover: '',
-        title: '',
-        author: '',
-        content: '',
-        category: '',
-        readTime: { value: 1 }
-    });
-
-    const handleBlogPostCreation = (e) => {
-        const { name, value } = e.target;
-
-        setPayload({
-            ...payload,
-            [name]: value
-        });
-    };
-
-    const handleNestedObj = (e) => {
-        setPayload({
-            ...payload,
-            readTime: { value: Number(e.target.value) }
-        });
     };
 
     const createBlogPost = async () => {
@@ -85,15 +58,12 @@ export const BlogPostProvider = ({ children }) => {
         <BlogPostContext.Provider
             value={{
                 state,
-                dispatch,
-                title,
-                setTitle,
-                getAllBlogPosts,
                 page,
+                title,
                 payload,
-                createBlogPost,
-                handleNestedObj,
-                handleBlogPostCreation
+                dispatch,
+                getAllBlogPosts,
+                createBlogPost
             }}
         >
             {children}

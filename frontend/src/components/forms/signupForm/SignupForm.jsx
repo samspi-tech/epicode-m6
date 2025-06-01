@@ -35,9 +35,10 @@ const SignupForm = ({ handleLogin }) => {
                     </Form.Group>
                     <Button type="submit" className="w-100 mt-2 py-2">Sign up</Button>
                 </Form>
-                <div className="mt-3 d-flex justify-content-center gap-2">
+                <div className="mt-3 d-flex justify-content-center align-items-end gap-2">
                     <p className="mb-0">Already have an account?</p>
                     <Button
+                        type="submit"
                         variant="link"
                         onClick={handleLogin}
                         className="p-0">Log in</Button>

@@ -4,12 +4,26 @@ import { Button, Form } from 'react-bootstrap';
 import { BlogPostContext } from '../../../contexts/BlogPostsContext.jsx';
 
 const BlogPostForm = () => {
-    const { payload, handleBlogPostCreation, handleNestedObj, createBlogPost } =
-        useContext(BlogPostContext);
+    const { payload, dispatch, createBlogPost } = useContext(BlogPostContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         createBlogPost();
+    };
+
+    const handlePayload = (e) => {
+        const { name, value } = e.target;
+        const isNestedObj = name === 'readTime';
+
+        const setPayload = {
+            ...payload,
+            [name]: isNestedObj ? { value } : value
+        };
+
+        dispatch({
+            type: 'setPayload',
+            payload: setPayload
+        });
     };
 
     return (
@@ -19,7 +33,7 @@ const BlogPostForm = () => {
                 name="title"
                 placeholder="Title"
                 value={payload.title}
-                onChange={handleBlogPostCreation}
+                onChange={handlePayload}
                 className="blog-post-form text-center display-4 fw-bold w-100"
                 required
             />
@@ -28,7 +42,7 @@ const BlogPostForm = () => {
                 name="category"
                 placeholder="Category"
                 value={payload.category}
-                onChange={handleBlogPostCreation}
+                onChange={handlePayload}
                 className="blog-post-form text-center fs-5 w-100"
                 required
             />
@@ -36,7 +50,7 @@ const BlogPostForm = () => {
                 type="text"
                 name="cover"
                 value={payload.cover}
-                onChange={handleBlogPostCreation}
+                onChange={handlePayload}
                 className="blog-post-form text-center fs-5 w-100"
                 placeholder="Paste an image URL of your choice (you can find one for free using Unslpash)"
                 required
@@ -45,7 +59,7 @@ const BlogPostForm = () => {
                 type="text"
                 name="author"
                 value={payload.author}
-                onChange={handleBlogPostCreation}
+                onChange={handlePayload}
                 className="blog-post-form text-center fs-5 w-100"
                 placeholder="We need your email to share your post with other users"
                 required
@@ -54,8 +68,8 @@ const BlogPostForm = () => {
                 <input
                     type="number"
                     name="readTime"
+                    onChange={handlePayload}
                     value={payload.readTime.value}
-                    onChange={handleNestedObj}
                     className="blog-post-form number text-end fs-5"
                     placeholder="How long is gonna take to read yout post (in minutes)"
                     required
@@ -66,8 +80,8 @@ const BlogPostForm = () => {
                 name="content"
                 autoCorrect="on"
                 value={payload.content}
+                onChange={handlePayload}
                 placeholder="Tell your story..."
-                onChange={handleBlogPostCreation}
                 className="blog-post-form textarea mt-5 fs-5"
                 required
             />

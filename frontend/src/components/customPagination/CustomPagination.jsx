@@ -8,21 +8,8 @@ const CustomPagination = () => {
     const { data } = state;
     const totalPages = data && data.totalPages;
 
-    const handleNextPage = () => {
-        if (page < totalPages) {
-            dispatch({
-                type: 'nextPage'
-            });
-        }
-    };
-
-    const handlePrevPage = () => {
-        if (page > 1) {
-            dispatch({
-                type: 'prevPage'
-            });
-        }
-    };
+    const handlePrevPage = () => page > 1 && dispatch({ type: 'prevPage' });
+    const handleNextPage = () => page < totalPages && dispatch({ type: 'nextPage' });
 
     return (
         <div className="d-flex justify-content-center align-items-center gap-3 mt-auto mb-5">
