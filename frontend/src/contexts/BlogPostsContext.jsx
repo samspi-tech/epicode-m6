@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react';
-import { initialState, blogPostReducer } from '../reducers/blogPostsReducer.js';
+import { blogPostReducer, initialState } from '../reducers/blogPostsReducer.js';
 
 export const BlogPostContext = createContext();
 
@@ -42,7 +42,7 @@ export const BlogPostProvider = ({ children }) => {
                     }
                 }
             );
-
+            
             return await response.json();
         } catch (e) {
             dispatch({

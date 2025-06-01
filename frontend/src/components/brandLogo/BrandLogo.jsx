@@ -2,10 +2,10 @@ import './brandLogo.css';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/epicodeLogo.jpeg';
 
-const BrandLogo = ({ w = 35, h = 35, fsLogo }) => {
+const BrandLogo = ({ nav, w = 35, h = 35, fsLogo }) => {
     return (
         <Link
-            to="/"
+            to={nav}
             className="brand-logo d-flex align-items-center gap-1 mx-auto mx-md-0"
         >
             <div className="logo-container">

@@ -15,7 +15,7 @@ const LoginPage = () => {
         <Container className="vh-100 d-flex flex-column justify-content-center gap-4">
             <Row>
                 <Col className="d-flex justify-content-center">
-                    <BrandLogo fsLogo="display-2" w="65" h="65" />
+                    <BrandLogo nav={'/'} fsLogo="display-2" w="65" h="65" />
                 </Col>
             </Row>
             {isLogin

@@ -11,17 +11,17 @@ const Navigation = () => {
             <Container className="py-3">
                 <Row className="gy-4 align-items-center">
                     <Col sm={12} md={3} lg={4} className="d-flex">
-                        <BrandLogo/>
+                        <BrandLogo nav={'/homepage'} />
                     </Col>
                     <Col sm={12} md={6} lg={4}>
-                        <SearchBar/>
+                        <SearchBar />
                     </Col>
                     <Col sm={12} md={3} lg={4} className="d-flex">
                         <CustomModal
-                            btnText={<SquarePen/>}
+                            btnText={<SquarePen />}
                             text="Share with other users what's in your mind 😎"
                         >
-                            <BlogPostForm/>
+                            <BlogPostForm />
                         </CustomModal>
                     </Col>
                 </Row>
