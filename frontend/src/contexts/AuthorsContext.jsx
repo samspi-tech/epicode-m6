@@ -1,11 +1,32 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useEffect, useReducer } from 'react';
 import { authorsReducer, initialState } from '../reducers/authorsReducer.js';
 
 export const AuthorsContext = createContext();
 
 export const AuthorsProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authorsReducer, initialState);
-    const { payload } = state;
+    const { data, payload } = state;
+
+    const getAllAuthors = async () => {
+        try {
+            const response = await fetch('http://localhost:9099/authors');
+            const data = await response.json();
+
+            dispatch({
+                type: 'dataReceived',
+                payload: data
+            });
+        } catch (e) {
+            dispatch({
+                type: 'dataFailed',
+                message: e.message
+            });
+        }
+    };
+
+    useEffect(() => {
+        getAllAuthors();
+    }, []);
 
     const createNewAuthor = async () => {
         try {
@@ -31,8 +52,10 @@ export const AuthorsProvider = ({ children }) => {
     return (
         <AuthorsContext.Provider value={{
             state,
+            data,
             payload,
             dispatch,
+            getAllAuthors,
             createNewAuthor
         }}>
             {children}

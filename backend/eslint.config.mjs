@@ -15,13 +15,13 @@ export default defineConfig([
         rules: {
             'newline-per-chained-call': [
                 'error',
-                {
-                    ignoreChainWithDepth: 2,
-                },
+                { ignoreChainWithDepth: 2, },
             ],
-            'semi': [
-                'error', 'always'
-            ],
+            'semi': ['error', 'always'],
+            'no-unused-vars': [
+                'error',
+                { 'argsIgnorePattern': 'req|res|next|val' }
+            ]
         },
     },
 ]);

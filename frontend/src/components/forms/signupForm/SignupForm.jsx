@@ -4,13 +4,16 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import { AuthorsContext } from '../../../contexts/AuthorsContext.jsx';
 
 const SignupForm = ({ handleLogin }) => {
-    const [validated, setValidated] = useState(false);
     const navigate = useNavigate();
-    const { dispatch, payload, createNewAuthor } = useContext(AuthorsContext);
+    const [validated, setValidated] = useState(false);
+    const { dispatch, data, payload, createNewAuthor } = useContext(AuthorsContext);
 
-    const password = payload.password;
-    const passwordConfirm = payload.passwordConfirm;
-    const arePasswordsMatch = password === passwordConfirm;
+    const registeredAuthor = data.authors.filter(author => {
+        return author.email === payload.email;
+    });
+
+    const isEmailUnique = registeredAuthor.length === 0;
+    const arePasswordsMatch = payload.password === payload.passwordConfirm;
 
     const handlePayload = e => {
         const { name, value } = e.target;
@@ -31,7 +34,7 @@ const SignupForm = ({ handleLogin }) => {
         const form = e.currentTarget;
         const isFormValid = form.checkValidity() === true;
 
-        if (isFormValid && arePasswordsMatch) {
+        if (isFormValid && arePasswordsMatch && isEmailUnique) {
             createNewAuthor();
             navigate('/newAuthorSuccess');
         } else {
@@ -45,7 +48,9 @@ const SignupForm = ({ handleLogin }) => {
         <Row className="justify-content-center">
             <Col xs={11} md={8} lg={6} xl={5}>
                 <h5 className="text-center fw-bold">Welcome!</h5>
-                <h5 className="text-center fw-bold mb-5">Create an account to share your story.</h5>
+                <h5 className="text-center fw-bold mb-5">
+                    Create an account to share your story.
+                </h5>
                 <Form
                     noValidate
                     validated={validated}
@@ -105,6 +110,10 @@ const SignupForm = ({ handleLogin }) => {
                         <Form.Control.Feedback type="invalid">
                             Required
                         </Form.Control.Feedback>
+                        {!isEmailUnique &&
+                            <Form.Control.Feedback className="text-danger">
+                                Account already registered!
+                            </Form.Control.Feedback>}
                     </Form.Group>
                     <Form.Group className="w-100">
                         <Form.Label>Password</Form.Label>
@@ -132,7 +141,7 @@ const SignupForm = ({ handleLogin }) => {
                             Required
                         </Form.Control.Feedback>
                         {!arePasswordsMatch &&
-                            <Form.Control.Feedback>
+                            <Form.Control.Feedback className="text-danger">
                                 Passwords are different.
                             </Form.Control.Feedback>}
                     </Form.Group>

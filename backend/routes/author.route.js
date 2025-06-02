@@ -3,7 +3,6 @@ const authors = express.Router();
 const validation = require('../utils/validation');
 const authorsController = require('../controllers/author.controller');
 
-
 authors.get('/', authorsController.getAllAuthors);
 authors.get('/:id', authorsController.getSingleAuthor);
 authors.post('/create', validation('createAuthor'), authorsController.createAuthor);
