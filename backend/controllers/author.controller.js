@@ -6,6 +6,9 @@ const WrongLoginInput = require('../exceptions/authors/wrongLoginInput');
 const MissingLoginInput = require('../exceptions/authors/missingLoginInput');
 const AuthorsNotFound = require('../exceptions/authors/authorsNotFoundException');
 
+const EmailService = require('../services/email.service');
+const email = new EmailService();
+
 const getAllAuthors = async (req, res, next) => {
     try {
         const {
@@ -65,8 +68,15 @@ const getSingleAuthor = async (req, res, next) => {
 const createAuthor = async (req, res, next) => {
     try {
         const { body } = req;
+        const { email: recipient } = body;
         const newAuthor = await authorsService.createAuthor(body);
         const token = signupToken(newAuthor._id);
+
+        await email.send(
+            `${recipient}`,
+            'Account Creation',
+            'Welcome to Epiblog!'
+        );
 
         res
             .status(201)
@@ -91,7 +101,7 @@ const loginAuthor = async (req, res, next) => {
         }
 
         const author = await Author.findOne({ email }).select('+password');
-        
+
         const {
             _id: authorId,
             password: authorPassword
