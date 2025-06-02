@@ -4,7 +4,7 @@ const ProfileIcon = ({ author }) => {
         <div className="profile-picture">
             <img
                 className="img-fluid"
-                src={author?.author.avatar}
+                src={author?.author?.avatar}
                 alt="Author profile picture"
             />
         </div>

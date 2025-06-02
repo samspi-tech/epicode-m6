@@ -10,7 +10,7 @@ const App = () => {
         <Router>
             <Routes>
                 <Route index path="/" element={<LoginPage />} />
-                <Route path="/newAuthorSuccess" element={<NewAuthorSuccess />} />
+                <Route path="/newAuthorSuccess/:email" element={<NewAuthorSuccess />} />
                 <Route path="/homepage/:id" element={<Homepage />} />
                 <Route path="/author/:id" element={<AuthorPage />} />
                 <Route path="*" element={<NotFoundPage />} />

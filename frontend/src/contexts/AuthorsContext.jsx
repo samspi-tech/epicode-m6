@@ -30,7 +30,7 @@ export const AuthorsProvider = ({ children }) => {
 
     const getSingleAuthor = async (id) => {
         try {
-            const response = await fetch(`http://localhost:9099/authors/single/${id}`);
+            const response = await fetch(`http://localhost:9099/authors/${id}`);
             const data = await response.json();
 
             dispatch({

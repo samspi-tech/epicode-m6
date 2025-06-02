@@ -9,7 +9,7 @@ const LoginForm = ({ handleLogin }) => {
     const { state, dispatch, data, loginPayload, authorPostRequest } = useContext(AuthorsContext);
     const { status } = state;
 
-    const author = data?.authors.filter(author => {
+    const author = data?.authors?.filter(author => {
         return author.email === loginPayload.email;
     });
 

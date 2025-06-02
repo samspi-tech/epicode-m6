@@ -24,7 +24,6 @@ const AuthorsSchema = new mongoose.Schema(
             type: String,
             required: true,
             minLength: 8,
-            select: false
         },
         passwordConfirm: {
             type: String,
@@ -44,15 +43,9 @@ const AuthorsSchema = new mongoose.Schema(
 
 AuthorsSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
-
-    this.password = await bcrypt.hash(this.password, 12);
-
+    
     this.passwordConfirm = undefined;
     next();
 });
-
-AuthorsSchema.methods.correctPassword = async (candidatePassword, userPassword) => {
-    return await bcrypt.compare(candidatePassword, userPassword);
-};
 
 module.exports = mongoose.model('author', AuthorsSchema, 'authors');

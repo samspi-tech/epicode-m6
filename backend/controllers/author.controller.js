@@ -1,6 +1,5 @@
 const Author = require('../models/authors');
 const { isArrayEmpty } = require('../utils/array');
-const signupToken = require('../utils/signupToken');
 const authorsService = require('../services/author.service');
 const WrongLoginInput = require('../exceptions/authors/wrongLoginInput');
 const MissingLoginInput = require('../exceptions/authors/missingLoginInput');
@@ -70,7 +69,6 @@ const createAuthor = async (req, res, next) => {
         const { body } = req;
         const { email: recipient } = body;
         const newAuthor = await authorsService.createAuthor(body);
-        const token = signupToken(newAuthor._id);
 
         await email.send(
             `${recipient}`,
@@ -102,23 +100,15 @@ const loginAuthor = async (req, res, next) => {
 
         const author = await Author.findOne({ email }).select('+password');
 
-        const {
-            _id: authorId,
-            password: authorPassword
-        } = author;
-
-        if (!author || !(await author.correctPassword(password, authorPassword))) {
+        if (!author || !password) {
             throw new WrongLoginInput();
         }
-
-        const token = signupToken(authorId);
 
         res
             .status(200)
             .send({
                 statusCode: 200,
                 author,
-                token
             });
     } catch (e) {
         next(e);

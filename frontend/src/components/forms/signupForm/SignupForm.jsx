@@ -8,12 +8,11 @@ const SignupForm = ({ handleLogin }) => {
     const [validated, setValidated] = useState(false);
     const { dispatch, data, signupPayload, authorPostRequest } = useContext(AuthorsContext);
 
-    const registeredAuthor = data.authors.filter(author => {
+    const registeredAuthor = data?.authors?.filter(author => {
         return author.email === signupPayload.email;
     });
 
-
-    const isEmailUnique = registeredAuthor.length === 0;
+    const isEmailUnique = registeredAuthor?.length === 0 || registeredAuthor === undefined;
     const arePasswordsMatch = signupPayload.password === signupPayload.passwordConfirm;
 
     const handlePayload = e => {
@@ -37,7 +36,7 @@ const SignupForm = ({ handleLogin }) => {
 
         if (isFormValid && arePasswordsMatch && isEmailUnique) {
             authorPostRequest('create', signupPayload);
-            navigate('/newAuthorSuccess');
+            navigate(`/newAuthorSuccess/${signupPayload.email}`);
         }
 
         setValidated(true);
