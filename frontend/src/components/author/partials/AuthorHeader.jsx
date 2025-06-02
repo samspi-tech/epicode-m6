@@ -1,4 +1,6 @@
 import { Col } from 'react-bootstrap';
+import CustomModal from '../../customModal/CustomModal.jsx';
+import AddImageForm from '../../forms/addImageForm/AddImageForm.jsx';
 
 const AuthorHeader = ({ author }) => {
     const { firstName, lastName, avatar } = author.author;
@@ -17,6 +19,15 @@ const AuthorHeader = ({ author }) => {
                     {firstName}{' '}{lastName}
                 </h1>
             </header>
+            <div className="profile-page-actions">
+                <CustomModal
+                    fullscreen={false}
+                    btnText="Settings"
+                    text="Update your profile"
+                >
+                    <AddImageForm />
+                </CustomModal>
+            </div>
         </Col>
     );
 };

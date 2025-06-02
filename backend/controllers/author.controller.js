@@ -81,7 +81,6 @@ const createAuthor = async (req, res, next) => {
             .send({
                 statusCode: 201,
                 message: 'Author created successfully',
-                token,
                 newAuthor,
             });
     } catch (e) {
@@ -127,11 +126,24 @@ const updateAuthor = async (req, res, next) => {
 
         res
             .status(200)
-            .json(req.file)
             .send({
                 statusCode: 200,
                 message: 'Author updated successfully',
                 author,
+            });
+    } catch (e) {
+        next(e);
+    }
+};
+
+const uploadFileOnCloudinary = async (req, res, next) => {
+    try {
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                avatar: req.file.path,
+                message: 'Image uploaded successfully',
             });
     } catch (e) {
         next(e);
@@ -165,5 +177,6 @@ module.exports = {
     createAuthor,
     loginAuthor,
     updateAuthor,
+    uploadFileOnCloudinary,
     deleteAuthor,
 };

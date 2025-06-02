@@ -24,3 +24,7 @@
     font-weight: 900;
     color: var(--text-secondary);
 }
+
+.profile-page-actions {
+    margin: 10px 0 0 250px;
+}

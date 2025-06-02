@@ -2,7 +2,7 @@ import './customModal.css';
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-const CustomModal = ({ text, btnText, children }) => {
+const CustomModal = ({ text, btnText, fullscreen, children }) => {
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow((prevState) => !prevState);
@@ -20,9 +20,9 @@ const CustomModal = ({ text, btnText, children }) => {
             </Button>
             <Modal
                 show={show}
-                fullscreen={true}
                 data-testid="modal"
                 onHide={handleShow}
+                fullscreen={fullscreen}
             >
                 <Modal.Header closeButton>
                     <Modal.Title>

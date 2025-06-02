@@ -20,7 +20,7 @@ export default defineConfig([
             'semi': ['error', 'always'],
             'no-unused-vars': [
                 'error',
-                { 'argsIgnorePattern': 'req|res|next|val' }
+                { 'argsIgnorePattern': 'req|res|next|val|file' }
             ]
         },
     },

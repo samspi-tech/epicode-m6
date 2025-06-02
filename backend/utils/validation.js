@@ -18,15 +18,13 @@ const {
     updateBlogPostBodyValidator,
 } = require('../middlewares/blogPosts/validateBlogPostBodyUpdate');
 
-const parser = require("../middlewares/multer/uploadMiddleware");
-
 const validation = (middleware) => {
     switch (middleware) {
         case 'createAuthor': {
             return [authorBodyValidation, authorBodyValidator];
         }
         case 'updateAuthor': {
-            return [updateAuthorBodyValidation, updateAuthorBodyValidator, parser.single('avatar')];
+            return [updateAuthorBodyValidation, updateAuthorBodyValidator];
         }
         case 'createBlogPost': {
             return [blogPostBodyValidation, blogPostBodyValidator];

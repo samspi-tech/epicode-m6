@@ -50,6 +50,7 @@ const Navigation = () => {
                             <ProfileIcon author={author} />
                         </Link>
                         <CustomModal
+                            fullscreen={true}
                             btnText={<SquarePen />}
                             text="Share with other users what's in your mind 😎"
                         >
