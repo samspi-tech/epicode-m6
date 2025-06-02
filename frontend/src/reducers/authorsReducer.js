@@ -1,7 +1,9 @@
 export const initialState = {
     data: null,
+    token: null,
+    author: null,
     status: 'loading',
-    payload: {
+    signupPayload: {
         firstName: '',
         lastName: '',
         email: '',
@@ -9,6 +11,10 @@ export const initialState = {
         passwordConfirm: '',
         dateOfBirth: '',
         avatar: ''
+    },
+    loginPayload: {
+        email: '',
+        password: ''
     }
 };
 
@@ -21,6 +27,18 @@ export const authorsReducer = (state, action) => {
                 status: 'ready'
             };
 
+        case 'singleAuthor':
+            return {
+                ...state,
+                author: action.payload
+            };
+
+        case 'tokenReceived':
+            return {
+                ...state,
+                token: action.payload
+            };
+
         case 'dataFailed':
             return {
                 ...state,
@@ -28,10 +46,17 @@ export const authorsReducer = (state, action) => {
                 message: action.message
             };
 
-        case 'setPayload':
+        case 'setSignupPayload':
             return {
                 ...state,
-                payload: action.payload
+                signupPayload: action.payload
+            };
+
+        case 'setLoginPayload':
+            return {
+                ...state,
+                loginPayload: action.payload,
+                status: 'logged'
             };
 
         default:

@@ -9,7 +9,7 @@ const CustomModal = ({ text, btnText, children }) => {
     };
 
     return (
-        <div className="ms-auto">
+        <div>
             <Button
                 onClick={handleShow}
                 className="border-0"

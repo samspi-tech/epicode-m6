@@ -1,0 +1,31 @@
+.nav-links {
+    font-weight: 700;
+    padding: 2px 4px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: var(--text-primary);
+
+    transition: all 150ms linear;
+}
+
+.nav-links.logout:hover {
+    color: var(--text-secondary);
+    background-color: var(--bg-secondary);
+}
+
+.profile-picture {
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.nav-links.profile {
+    padding: 2px;
+    border-radius: 50%;
+}
+
+.nav-links.profile:hover {
+    background-color: var(--bg-secondary);
+}
+

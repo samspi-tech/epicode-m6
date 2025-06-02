@@ -117,6 +117,7 @@ const loginAuthor = async (req, res, next) => {
             .status(200)
             .send({
                 statusCode: 200,
+                author,
                 token
             });
     } catch (e) {

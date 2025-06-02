@@ -6,25 +6,26 @@ import { AuthorsContext } from '../../../contexts/AuthorsContext.jsx';
 const SignupForm = ({ handleLogin }) => {
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
-    const { dispatch, data, payload, createNewAuthor } = useContext(AuthorsContext);
+    const { dispatch, data, signupPayload, authorPostRequest } = useContext(AuthorsContext);
 
     const registeredAuthor = data.authors.filter(author => {
-        return author.email === payload.email;
+        return author.email === signupPayload.email;
     });
 
+
     const isEmailUnique = registeredAuthor.length === 0;
-    const arePasswordsMatch = payload.password === payload.passwordConfirm;
+    const arePasswordsMatch = signupPayload.password === signupPayload.passwordConfirm;
 
     const handlePayload = e => {
         const { name, value } = e.target;
 
         const setPayload = {
-            ...payload,
+            ...signupPayload,
             [name]: value
         };
 
         dispatch({
-            type: 'setPayload',
+            type: 'setSignupPayload',
             payload: setPayload
         });
     };
@@ -35,10 +36,8 @@ const SignupForm = ({ handleLogin }) => {
         const isFormValid = form.checkValidity() === true;
 
         if (isFormValid && arePasswordsMatch && isEmailUnique) {
-            createNewAuthor();
+            authorPostRequest('create', signupPayload);
             navigate('/newAuthorSuccess');
-        } else {
-            e.stopPropagation();
         }
 
         setValidated(true);
@@ -65,7 +64,7 @@ const SignupForm = ({ handleLogin }) => {
                                 type="text"
                                 name="firstName"
                                 onChange={handlePayload}
-                                value={payload.firstName}
+                                value={signupPayload.firstName}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Required
@@ -78,7 +77,7 @@ const SignupForm = ({ handleLogin }) => {
                                 type="text"
                                 name="lastName"
                                 onChange={handlePayload}
-                                value={payload.lastName}
+                                value={signupPayload.lastName}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Required
@@ -92,7 +91,7 @@ const SignupForm = ({ handleLogin }) => {
                             type="date"
                             name="dateOfBirth"
                             onChange={handlePayload}
-                            value={payload.dateOfBirth}
+                            value={signupPayload.dateOfBirth}
                         />
                         <Form.Control.Feedback type="invalid">
                             Required
@@ -104,7 +103,7 @@ const SignupForm = ({ handleLogin }) => {
                             required
                             type="email"
                             name="email"
-                            value={payload.email}
+                            value={signupPayload.email}
                             onChange={handlePayload}
                         />
                         <Form.Control.Feedback type="invalid">
@@ -121,7 +120,7 @@ const SignupForm = ({ handleLogin }) => {
                             required
                             type="password"
                             name="password"
-                            value={payload.password}
+                            value={signupPayload.password}
                             onChange={handlePayload}
                         />
                         <Form.Control.Feedback type="invalid">
@@ -135,7 +134,7 @@ const SignupForm = ({ handleLogin }) => {
                             type="password"
                             name="passwordConfirm"
                             onChange={handlePayload}
-                            value={payload.passwordConfirm}
+                            value={signupPayload.passwordConfirm}
                         />
                         <Form.Control.Feedback type="invalid">
                             Required
@@ -150,7 +149,6 @@ const SignupForm = ({ handleLogin }) => {
                 <div className="mt-3 d-flex justify-content-center align-items-end gap-2">
                     <p className="mb-0">Already have an account?</p>
                     <Button
-                        type="submit"
                         variant="link"
                         onClick={handleLogin}
                         className="p-0">Log in</Button>
