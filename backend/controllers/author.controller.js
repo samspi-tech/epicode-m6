@@ -47,8 +47,8 @@ const getAllAuthors = async (req, res, next) => {
 
 const getSingleAuthor = async (req, res, next) => {
     try {
-        const { _id } = req.params;
-        const author = await authorsService.findSingleAuthor(_id);
+        const { id } = req.params;
+        const author = await authorsService.findSingleAuthor(id);
 
         if (!author) {
             throw new AuthorsNotFound();

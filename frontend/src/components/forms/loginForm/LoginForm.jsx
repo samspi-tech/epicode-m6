@@ -34,10 +34,6 @@ const LoginForm = ({ handleLogin }) => {
         const form = e.currentTarget;
         const isFormValid = form.checkValidity() === true;
 
-        if (status === 'error') {
-            return console.log('error');
-        }
-
         if (isFormValid && isEmailRegistered) {
             authorPostRequest('login', loginPayload);
             status === 'logged' && navigate(`/homepage/${author[0]._id}`);

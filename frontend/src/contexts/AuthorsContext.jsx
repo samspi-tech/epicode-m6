@@ -30,7 +30,7 @@ export const AuthorsProvider = ({ children }) => {
 
     const getSingleAuthor = async (id) => {
         try {
-            const response = await fetch(`http://localhost:9099/authors/${id}`);
+            const response = await fetch(`http://localhost:9099/authors/single/${id}`);
             const data = await response.json();
 
             dispatch({
@@ -57,7 +57,7 @@ export const AuthorsProvider = ({ children }) => {
                     }
                 });
             const data = await response.json();
-            
+
             dispatch({
                 type: 'tokenReceived',
                 payload: data

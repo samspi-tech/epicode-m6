@@ -30,7 +30,8 @@ export const authorsReducer = (state, action) => {
         case 'singleAuthor':
             return {
                 ...state,
-                author: action.payload
+                author: action.payload,
+                status: 'ready'
             };
 
         case 'tokenReceived':

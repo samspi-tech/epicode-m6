@@ -1,6 +1,6 @@
 import './navigation.css';
-import { useContext, useEffect } from 'react';
 import { SquarePen } from 'lucide-react';
+import { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import BrandLogo from '../brandLogo/BrandLogo.jsx';
 import SearchBar from '../searchBar/SearchBar.jsx';
@@ -22,13 +22,21 @@ const Navigation = () => {
         <Container fluid={true}>
             <Container className="py-3">
                 <Row className="gy-4 align-items-center">
-                    <Col sm={12} md={3} lg={4} className="d-flex">
+                    <Col
+                        sm={12}
+                        lg={4}
+                        className="d-flex justify-content-center justify-content-lg-start"
+                    >
                         <BrandLogo nav={'/homepage'} />
                     </Col>
-                    <Col sm={12} md={6} lg={4}>
+                    <Col sm={12} lg={4}>
                         <SearchBar />
                     </Col>
-                    <Col sm={12} md={3} lg={4} className="d-flex justify-content-end align-items-center gap-3">
+                    <Col
+                        sm={12}
+                        lg={4}
+                        className="d-flex justify-content-center justify-content-lg-end align-items-center gap-3"
+                    >
                         <Link
                             to={`/homepage/${id}`}
                             className="nav-links logout"
