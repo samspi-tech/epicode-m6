@@ -7,6 +7,7 @@ const PORT = 9099;
 
 const authorsRoute = require('./routes/author.route');
 const blogPostsRoute = require('./routes/blogPost.route');
+const addressRoute = require('./routes/address.route');
 
 const server = express();
 
@@ -15,6 +16,7 @@ server.use(express.json());
 
 server.use('/authors', authorsRoute);
 server.use('/blogPosts', blogPostsRoute);
+server.use('/address', addressRoute);
 
 server.use(errorHandler);
 

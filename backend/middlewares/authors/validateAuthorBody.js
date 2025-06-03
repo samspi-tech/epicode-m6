@@ -19,19 +19,6 @@ const authorBodyValidation = [
         .withMessage("Password can't be shorter than 8 chars")
         .isString()
         .withMessage('Password must be string'),
-    body('passwordConfirm')
-        .isString()
-        .withMessage('PasswordConfirm must be a string')
-        .custom((passConfirm, { req }) => {
-            const { password } = req.body;
-            const isNotMatch = passConfirm !== password;
-
-            if (isNotMatch) {
-                throw new Error('Password confirmation does not match password');
-            }
-
-            return true;
-        }),
     body('dateOfBirth')
         .notEmpty()
         .withMessage("DateOfBirth can't be empty")

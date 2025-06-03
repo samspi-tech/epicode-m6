@@ -1,20 +1,26 @@
+const AuthorSchema = require('../models/authors');
 const BlogPostSchema = require('../models/blogPost');
 const { calcTotalPages, orderDirection, calcSkip } = require('../utils/order');
 
-const findAllBlogPosts = async (title, page, pageSize, field, order) => {
+const findAllBlogPosts = async (title = '', page, pageSize, field, order) => {
     const totalBlogPosts = await BlogPostSchema.countDocuments();
     const totalPages = calcTotalPages(totalBlogPosts, pageSize);
 
+    const query = {
+        title: {
+            $regex: `${title}`,
+            $options: 'i',
+        }
+    };
+
+    const findTitle = title === '' ? null : query;
+
     const blogPosts = await BlogPostSchema
-        .find({
-            title: {
-                $regex: `${title}`,
-                $options: 'i',
-            },
-        })
+        .find(findTitle)
         .sort(orderDirection(field, order))
         .limit(pageSize)
-        .skip(calcSkip(page, pageSize));
+        .skip(calcSkip(page, pageSize))
+        .populate('author');
 
     return {
         blogPosts,
@@ -27,9 +33,16 @@ const findSingleBlogPost = async (id) => {
     return BlogPostSchema.findById(id);
 };
 
-const createBlogPost = async (post) => {
+const createBlogPost = async (post, id) => {
+    const author = await AuthorSchema.findById(id);
     const newPost = new BlogPostSchema(post);
-    return await newPost.save();
+    const authorPost = await newPost.save();
+
+    await AuthorSchema.updateOne(
+        { _id: author._id },
+        { $push: { blogPosts: authorPost } });
+
+    return authorPost;
 };
 
 const updateBlogPost = async (id, payload) => {

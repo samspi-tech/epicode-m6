@@ -28,7 +28,7 @@ const BlogPostSchema = new mongoose.Schema(
                 default: 'min',
             },
         },
-        author: {
+        email: {
             type: String,
             required: true,
             max: 100,
@@ -37,6 +37,10 @@ const BlogPostSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'author'
+        }
     },
     { timestamps: true, strict: true },
 );

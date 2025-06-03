@@ -9,7 +9,9 @@ const findAllAuthors = async (page, pageSize, field, order) => {
         .find()
         .sort(orderDirection(field, order))
         .limit(pageSize)
-        .skip(calcSkip(page, pageSize));
+        .skip(calcSkip(page, pageSize))
+        .populate('address')
+        .populate('blogPosts');
 
     return {
         authors,

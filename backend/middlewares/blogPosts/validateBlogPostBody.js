@@ -20,9 +20,9 @@ const blogPostBodyValidation = [
         .withMessage("Value can't be empty")
         .isInt()
         .withMessage('Value must be an integer number'),
-    body('author')
+    body('email')
         .isEmail()
-        .withMessage('Author must be a valid email'),
+        .withMessage('Email must be valid'),
     body('content')
         .notEmpty()
         .withMessage("Content can't be empty")

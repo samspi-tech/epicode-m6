@@ -65,8 +65,15 @@ const getSingleBlogPost = async (req, res, next) => {
 const createBlogPost = async (req, res, next) => {
     try {
         const { body } = req;
-        const { author: recipient } = body;
-        const post = await blogPostsService.createBlogPost(body);
+        const { id } = req.params;
+        const { email: recipient } = body;
+
+        const payload = {
+            ...body,
+            author: id
+        };
+
+        const newPost = await blogPostsService.createBlogPost(payload, id);
 
         await email.send(
             `${recipient}`,
@@ -79,7 +86,7 @@ const createBlogPost = async (req, res, next) => {
             .send({
                 statusCode: 201,
                 message: 'Post created successfully',
-                post,
+                newPost,
             });
     } catch (e) {
         next(e);
