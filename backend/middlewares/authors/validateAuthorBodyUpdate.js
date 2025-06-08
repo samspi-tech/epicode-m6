@@ -1,6 +1,6 @@
 const { body, validationResult } = require('express-validator');
 
-const updateAuthorBodyValidation = [
+const authorBodyUpdateValidation = [
     body('firstName')
         .optional()
         .isString()
@@ -27,7 +27,7 @@ const updateAuthorBodyValidation = [
         .withMessage('Avatar must be a valid URL'),
 ];
 
-const updateAuthorBodyValidator = (req, res, next) => {
+const authorBodyUpdateValidator = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -39,6 +39,6 @@ const updateAuthorBodyValidator = (req, res, next) => {
 };
 
 module.exports = {
-    updateAuthorBodyValidation,
-    updateAuthorBodyValidator
+    authorBodyUpdateValidation,
+    authorBodyUpdateValidator
 };

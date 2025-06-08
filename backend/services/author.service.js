@@ -9,9 +9,7 @@ const findAllAuthors = async (page, pageSize, field, order) => {
         .find()
         .sort(orderDirection(field, order))
         .limit(pageSize)
-        .skip(calcSkip(page, pageSize))
-        .populate('address')
-        .populate('blogPosts');
+        .skip(calcSkip(page, pageSize));
 
     return {
         authors,
@@ -20,22 +18,22 @@ const findAllAuthors = async (page, pageSize, field, order) => {
     };
 };
 
-const findSingleAuthor = async (id) => {
-    return AuthorsSchema.findById(id);
+const findSingleAuthor = async (authorId) => {
+    return AuthorsSchema.findById(authorId);
 };
 
-const createAuthor = async (author) => {
-    const newAuthor = new AuthorsSchema(author);
+const createAuthor = async (authorBody) => {
+    const newAuthor = new AuthorsSchema(authorBody);
     return await newAuthor.save();
 };
 
-const updateAuthor = async (id, payload) => {
+const updateAuthor = async (authorId, authorBody) => {
     const option = { new: true };
-    return AuthorsSchema.findByIdAndUpdate(id, payload, option);
+    return AuthorsSchema.findByIdAndUpdate(authorId, authorBody, option);
 };
 
-const deleteAuthor = async (id) => {
-    return AuthorsSchema.findByIdAndDelete(id);
+const deleteAuthor = async (authorId) => {
+    return AuthorsSchema.findByIdAndDelete(authorId);
 };
 
 module.exports = {

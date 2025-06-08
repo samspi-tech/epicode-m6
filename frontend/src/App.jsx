@@ -3,17 +3,18 @@ import Homepage from './pages/Homepage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import AuthorPage from './pages/AuthorPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
-import NewAuthorSuccess from './pages/NewAuthorSuccess.jsx';
+import ProtectedRoutes from "./middleware/ProtectedRoutes.jsx";
 
 const App = () => {
     return (
         <Router>
             <Routes>
-                <Route index path="/" element={<LoginPage />} />
-                <Route path="/newAuthorSuccess/:email" element={<NewAuthorSuccess />} />
-                <Route path="/homepage/:id" element={<Homepage />} />
-                <Route path="/author/:id" element={<AuthorPage />} />
-                <Route path="*" element={<NotFoundPage />} />
+                <Route index path="/" element={<LoginPage/>}/>
+                <Route element={<ProtectedRoutes/>}>
+                    <Route path="/homepage" element={<Homepage/>}/>
+                    <Route path="/author" element={<AuthorPage/>}/>
+                </Route>
+                <Route path="*" element={<NotFoundPage/>}/>
             </Routes>
         </Router>
     );

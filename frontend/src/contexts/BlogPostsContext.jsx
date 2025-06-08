@@ -1,17 +1,24 @@
 import { createContext, useReducer } from 'react';
+import { isToken } from "../middleware/ProtectedRoutes.jsx";
 import { blogPostReducer, initialState } from '../reducers/blogPostsReducer.js';
 
 export const BlogPostContext = createContext();
 
 export const BlogPostProvider = ({ children }) => {
     const [state, dispatch] = useReducer(blogPostReducer, initialState);
-    const { page, title, payload } = state;
+    const { page, title, payload, data } = state;
+    
+    const token = isToken()
 
     const getAllBlogPosts = async () => {
         try {
             const response = await fetch(
-                `http://localhost:9099/blogPosts/title?q=${title}&pageSize=3&page=${page}`
-            );
+                `http://localhost:9099/blogPosts?title=${title}&pageSize=3&page=${page}`,
+                {
+                    headers: {
+                        'Authorization': `${token}`
+                    }
+                });
             const data = await response.json();
 
             if (!response.ok) {
@@ -42,7 +49,7 @@ export const BlogPostProvider = ({ children }) => {
                     }
                 }
             );
-            
+
             return await response.json();
         } catch (e) {
             dispatch({
@@ -58,6 +65,7 @@ export const BlogPostProvider = ({ children }) => {
         <BlogPostContext.Provider
             value={{
                 state,
+                data,
                 page,
                 title,
                 payload,

@@ -1,6 +1,6 @@
 const { isArrayEmpty } = require('../utils/array');
 const blogPostsService = require('../services/blogPost.service');
-const BlogPostNotFound = require('../exceptions/blogPosts/blogPostsNotFoundException');
+const BlogPostNotFoundException = require('../exceptions/blogPosts/blogPostsNotFoundException');
 
 const EmailService = require('../services/email.service');
 const email = new EmailService();
@@ -8,7 +8,7 @@ const email = new EmailService();
 const getAllBlogPosts = async (req, res, next) => {
     try {
         const {
-            q,
+            title,
             page = 1,
             pageSize = 10,
             field = 'category',
@@ -19,10 +19,10 @@ const getAllBlogPosts = async (req, res, next) => {
             blogPosts,
             totalPages,
             totalBlogPosts
-        } = await blogPostsService.findAllBlogPosts(q, page, pageSize, field, order);
+        } = await blogPostsService.findAllBlogPosts(title, page, pageSize, field, order);
 
         if (isArrayEmpty(blogPosts)) {
-            throw new BlogPostNotFound();
+            throw new BlogPostNotFoundException();
         }
 
         res
@@ -48,7 +48,7 @@ const getSingleBlogPost = async (req, res, next) => {
         const post = await blogPostsService.findSingleBlogPost(id);
 
         if (!post) {
-            throw new BlogPostNotFound();
+            throw new BlogPostNotFoundException();
         }
 
         res
@@ -65,15 +65,16 @@ const getSingleBlogPost = async (req, res, next) => {
 const createBlogPost = async (req, res, next) => {
     try {
         const { body } = req;
-        const { id } = req.params;
+        const { authorId } = req.params;
         const { email: recipient } = body;
 
         const payload = {
             ...body,
-            author: id
+            author: authorId
         };
 
-        const newPost = await blogPostsService.createBlogPost(payload, id);
+        const newPost = await blogPostsService.createBlogPost(payload, authorId);
+
 
         await email.send(
             `${recipient}`,
@@ -100,7 +101,7 @@ const updateBlogPost = async (req, res, next) => {
         const post = await blogPostsService.updateBlogPost(id, body);
 
         if (!post) {
-            throw new BlogPostNotFound();
+            throw new BlogPostNotFoundException();
         }
 
         res
@@ -121,7 +122,7 @@ const deleteBlogPost = async (req, res, next) => {
         const post = await blogPostsService.deleteBlogPost(id);
 
         if (!post) {
-            throw new BlogPostNotFound();
+            throw new BlogPostNotFoundException();
         }
 
         res

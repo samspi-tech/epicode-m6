@@ -1,6 +1,6 @@
 const { body, validationResult } = require('express-validator');
 
-const updateBlogPostBodyValidation = [
+const blogPostBodyUpdateValidation = [
     body('category')
         .optional()
         .isLength({ min: 1, max: 100 })
@@ -35,7 +35,7 @@ const updateBlogPostBodyValidation = [
         .withMessage('Content must be a string'),
 ];
 
-const updateBlogPostBodyValidator = (req, res, next) => {
+const blogPostBodyUpdateValidator = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -47,6 +47,6 @@ const updateBlogPostBodyValidator = (req, res, next) => {
 };
 
 module.exports = {
-    updateBlogPostBodyValidation,
-    updateBlogPostBodyValidator
+    blogPostBodyUpdateValidation,
+    blogPostBodyUpdateValidator
 };

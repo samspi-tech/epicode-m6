@@ -4,8 +4,8 @@ const {
 } = require('../middlewares/authors/validateAuthorBody');
 
 const {
-    updateAuthorBodyValidation,
-    updateAuthorBodyValidator,
+    authorBodyUpdateValidation,
+    authorBodyUpdateValidator,
 } = require('../middlewares/authors/validateAuthorBodyUpdate');
 
 const {
@@ -14,23 +14,39 @@ const {
 } = require('../middlewares/blogPosts/validateBlogPostBody');
 
 const {
-    updateBlogPostBodyValidation,
-    updateBlogPostBodyValidator,
+    blogPostBodyUpdateValidation,
+    blogPostBodyUpdateValidator,
 } = require('../middlewares/blogPosts/validateBlogPostBodyUpdate');
 
-const validation = (middleware) => {
-    switch (middleware) {
+const {
+    commentBodyValidation,
+    commentBodyValidator
+} = require('../middlewares/comments/validateCommentBody');
+
+const {
+    commentBodyUpdateValidation,
+    commentBodyUpdateValidator
+} = require('../middlewares/comments/validateCommentBodyUpdate');
+
+const validation = (bodyValidation) => {
+    switch (bodyValidation) {
         case 'createAuthor': {
             return [authorBodyValidation, authorBodyValidator];
         }
         case 'updateAuthor': {
-            return [updateAuthorBodyValidation, updateAuthorBodyValidator];
+            return [authorBodyUpdateValidation, authorBodyUpdateValidator];
         }
         case 'createBlogPost': {
             return [blogPostBodyValidation, blogPostBodyValidator];
         }
         case 'updateBlogPost': {
-            return [updateBlogPostBodyValidation, updateBlogPostBodyValidator];
+            return [blogPostBodyUpdateValidation, blogPostBodyUpdateValidator];
+        }
+        case 'createComment': {
+            return [commentBodyValidation, commentBodyValidator];
+        }
+        case 'updateComment': {
+            return [commentBodyUpdateValidation, commentBodyUpdateValidator];
         }
     }
 };

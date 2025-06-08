@@ -1,87 +1,72 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useReducer } from 'react';
 import { authorsReducer, initialState } from '../reducers/authorsReducer.js';
 
 export const AuthorsContext = createContext();
 
 export const AuthorsProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authorsReducer, initialState);
-    const { data, token, author, signupPayload, loginPayload } = state;
+    const { data, status, payload, message } = state;
 
-    const getAllAuthors = async () => {
+    const getMe = async (token) => {
         try {
-            const response = await fetch('http://localhost:9099/authors');
-            const data = await response.json();
+            const response = await fetch('http://localhost:9099/auth/me',
+                {
+                    headers: {
+                        'Authorization': `${token}`
+                    }
+                })
+
+            const data = await response.json()
 
             dispatch({
                 type: 'dataReceived',
-                payload: data
-            });
+                payload: data.user
+            })
         } catch (e) {
             dispatch({
                 type: 'dataFailed',
                 message: e.message
-            });
+            })
         }
     };
 
-    useEffect(() => {
-        getAllAuthors();
-    }, []);
+    // useEffect(() => {
+    //     getMe()
+    // }, [token, status])
 
-    const getSingleAuthor = async (id) => {
+    const signup = async () => {
         try {
-            const response = await fetch(`http://localhost:9099/authors/${id}`);
-            const data = await response.json();
-
-            dispatch({
-                type: 'singleAuthor',
-                payload: data
-            });
-        } catch (e) {
-            dispatch({
-                type: 'dataFailed',
-                message: e.message
-            });
-        }
-    };
-
-    const authorPostRequest = async (req, payload) => {
-        try {
-            const response = await fetch(
-                `http://localhost:9099/authors/${req}`,
+            const response = await fetch('http://localhost:9099/authors/create',
                 {
                     method: 'POST',
                     body: JSON.stringify(payload),
                     headers: {
-                        'Content-type': 'application/json'
+                        'Content-Type': 'application/json'
                     }
                 });
-            const data = await response.json();
+            const jsonResponse = await response.json()
 
-            dispatch({
-                type: 'tokenReceived',
-                payload: data
-            });
+            if (!response.ok) throw new Error(`${jsonResponse.message}`)
+
+            return jsonResponse
         } catch (e) {
             dispatch({
                 type: 'dataFailed',
                 message: e.message
-            });
+            })
         }
     };
 
     return (
         <AuthorsContext.Provider value={{
-            data,
-            token,
-            author,
             state,
             dispatch,
-            signupPayload,
-            loginPayload,
-            getAllAuthors,
-            getSingleAuthor,
-            authorPostRequest
+            data,
+            status,
+            payload,
+            message,
+            getMe,
+            signup
         }}>
             {children}
         </AuthorsContext.Provider>

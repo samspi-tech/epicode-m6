@@ -4,10 +4,10 @@ import { TriangleAlert } from 'lucide-react';
 
 const CustomAlert = ({ error, alert, text }) => {
     return (
-        <Alert className="col-10 col-md-8 col-lg-6 col-xl-4 error-alert">
+        <Alert className="col-10 col-md-8 col-lg-6 col-xl-4 error-alert border-5 border-danger shadow">
             <div className="fs-5">
                 <div className="d-flex justify-content-center align-items-center gap-2">
-                    <TriangleAlert />
+                    <TriangleAlert/>
                     <span className="fw-bold">{alert}</span>
                 </div>
                 <p className="mb-0 mt-2 text-center">

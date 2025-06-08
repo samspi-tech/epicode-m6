@@ -12,7 +12,6 @@ const errorHandler = (err, req, res, next) => {
                     error: err.error,
                 });
         }
-
         case err.code === 11000: {
             const { keyValue } = err;
             const [[key, value]] = Object.entries(keyValue);
@@ -25,11 +24,10 @@ const errorHandler = (err, req, res, next) => {
                 .status(400)
                 .send({
                     statusCode: 400,
-                    message: `${field} '${value}' already exists, please try something different`,
+                    message: `${field} '${value}' already exists, please try something different.`,
                     error: 'Duplicate field',
                 });
         }
-
         case err instanceof mongoose.Error.CastError: {
             return res
                 .status(400)
@@ -39,8 +37,7 @@ const errorHandler = (err, req, res, next) => {
                     error: 'Mongoose CastError',
                 });
         }
-
-        default:
+        default: {
             res
                 .status(500)
                 .send({
@@ -48,6 +45,7 @@ const errorHandler = (err, req, res, next) => {
                     message: 'An error has occurred, please try again later or contact support',
                     error: 'Internal server error',
                 });
+        }
     }
 };
 

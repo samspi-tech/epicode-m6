@@ -1,8 +1,5 @@
-const Author = require('../models/authors');
 const { isArrayEmpty } = require('../utils/array');
 const authorsService = require('../services/author.service');
-const WrongLoginInput = require('../exceptions/authors/wrongLoginInput');
-const MissingLoginInput = require('../exceptions/authors/missingLoginInput');
 const AuthorsNotFound = require('../exceptions/authors/authorsNotFoundException');
 
 const EmailService = require('../services/email.service');
@@ -88,32 +85,6 @@ const createAuthor = async (req, res, next) => {
     }
 };
 
-const loginAuthor = async (req, res, next) => {
-    try {
-        const { body } = req;
-        const { email, password } = body;
-
-        if (!email || !password) {
-            throw new MissingLoginInput();
-        }
-
-        const author = await Author.findOne({ email }).select('+password');
-
-        if (!author || !password) {
-            throw new WrongLoginInput();
-        }
-
-        res
-            .status(200)
-            .send({
-                statusCode: 200,
-                author,
-            });
-    } catch (e) {
-        next(e);
-    }
-};
-
 const updateAuthor = async (req, res, next) => {
     try {
         const { body } = req;
@@ -175,7 +146,6 @@ module.exports = {
     getAllAuthors,
     getSingleAuthor,
     createAuthor,
-    loginAuthor,
     updateAuthor,
     uploadFileOnCloudinary,
     deleteAuthor,

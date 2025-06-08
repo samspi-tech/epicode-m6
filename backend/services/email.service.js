@@ -1,5 +1,4 @@
 const sgMail = require('@sendgrid/mail');
-require('dotenv').config();
 
 class EmailService {
     constructor() {
@@ -14,7 +13,7 @@ class EmailService {
                 subject,
                 html: message,
             };
-            
+
             await sgMail.send(messageOption);
         } catch (e) {
             console.error(e);

@@ -1,9 +1,10 @@
 import { Col } from 'react-bootstrap';
 
 const Post = ({ post }) => {
-    const { author: email, title, category, content, cover, readTime } = post;
+    const { author, title, category, content, cover, readTime } = post;
     const { value: time, unit } = readTime;
-    const username = email.split('@')[0];
+
+    const username = `${author.firstName} ${author.lastName.slice(0, 1)}.`
 
     return (
         <Col
@@ -13,7 +14,7 @@ const Post = ({ post }) => {
             className="post-container d-flex flex-column flex-lg-row mx-2 mx-md-0"
         >
             <div className="post-img-container order-1 order-lg-0">
-                <img src={cover} alt="Post image" />
+                <img src={cover} alt="Post image"/>
             </div>
             <div className="post-body d-flex flex-column justify-content-between p-3 w-100">
                 <div>

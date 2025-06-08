@@ -40,7 +40,11 @@ const BlogPostSchema = new mongoose.Schema(
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'author'
-        }
+        },
+        comments: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'comment'
+        }]
     },
     { timestamps: true, strict: true },
 );

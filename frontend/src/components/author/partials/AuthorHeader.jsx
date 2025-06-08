@@ -3,7 +3,7 @@ import CustomModal from '../../customModal/CustomModal.jsx';
 import AddImageForm from '../../forms/addImageForm/AddImageForm.jsx';
 
 const AuthorHeader = ({ author }) => {
-    const { firstName, lastName, avatar } = author.author;
+    const { firstName, lastName, avatar } = author;
 
     return (
         <Col>
@@ -25,7 +25,7 @@ const AuthorHeader = ({ author }) => {
                     btnText="Settings"
                     text="Update your profile"
                 >
-                    <AddImageForm />
+                    <AddImageForm/>
                 </CustomModal>
             </div>
         </Col>

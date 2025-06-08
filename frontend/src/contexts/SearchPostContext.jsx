@@ -8,8 +8,7 @@ export const SearchPostProvider = ({ children }) => {
     const handleInputChange = (e) => {
         setQuery(e.target.value);
     };
-
-
+    
     return (
         <SearchPostContext.Provider value={{ query, handleInputChange }}>
             {children}

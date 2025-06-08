@@ -1,66 +1,41 @@
 export const initialState = {
     data: null,
-    token: null,
-    author: null,
     status: 'loading',
-    signupPayload: {
+    message: '',
+    payload: {
         firstName: '',
         lastName: '',
         email: '',
         password: '',
         passwordConfirm: '',
-        dateOfBirth: '',
-        avatar: ''
-    },
-    loginPayload: {
-        email: '',
-        password: ''
+        dateOfBirth: ''
     }
 };
 
 export const authorsReducer = (state, action) => {
     switch (action.type) {
-        case 'dataReceived':
+        case 'dataReceived': {
             return {
                 ...state,
                 data: action.payload,
                 status: 'ready'
             };
-
-        case 'singleAuthor':
-            return {
-                ...state,
-                author: action.payload,
-                status: 'ready'
-            };
-
-        case 'tokenReceived':
-            return {
-                ...state,
-                token: action.payload
-            };
-
-        case 'dataFailed':
+        }
+        case 'dataFailed': {
             return {
                 ...state,
                 status: 'error',
                 message: action.message
             };
-
-        case 'setSignupPayload':
+        }
+        case 'signup': {
             return {
                 ...state,
-                signupPayload: action.payload
-            };
-
-        case 'setLoginPayload':
-            return {
-                ...state,
-                loginPayload: action.payload,
-                status: 'logged'
-            };
-
-        default:
+                payload: action.payload
+            }
+        }
+        default: {
             throw new Error('Action is unknown');
+        }
     }
 };

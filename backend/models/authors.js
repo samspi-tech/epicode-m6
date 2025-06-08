@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const hashPassword = require('../utils/hashPassword');
 
 const AuthorsSchema = new mongoose.Schema(
     {
@@ -24,7 +24,6 @@ const AuthorsSchema = new mongoose.Schema(
             type: String,
             required: true,
             minLength: 8,
-            select: false
         },
         dateOfBirth: {
             type: String,
@@ -34,14 +33,10 @@ const AuthorsSchema = new mongoose.Schema(
             type: String,
             default: 'https://images.unsplash.com/photo-1740252117044-2af197eea287?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         },
-        address: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'address'
-        }],
         blogPosts: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'blogPost'
-        }]
+        }],
     },
     { timestamps: true, strict: true },
 );
@@ -49,7 +44,27 @@ const AuthorsSchema = new mongoose.Schema(
 AuthorsSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
 
-    this.password = await bcrypt.hash(this.password, 12);
+    try {
+        this.password = await hashPassword(this.password);
+
+        next();
+    } catch (e) {
+        next(e);
+    }
+});
+
+AuthorsSchema.pre('findOneAndUpdate', async function (next) {
+    const update = this.getUpdate();
+
+    if (update.password) {
+        const hashedPassword = await hashPassword(update.password);
+
+        this.setUpdate({
+            ...update,
+            password: hashedPassword
+        });
+    }
+
     next();
 });
 

@@ -1,30 +1,24 @@
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import CustomAlert from "../../customAlert/CustomAlert.jsx";
 import { AuthorsContext } from '../../../contexts/AuthorsContext.jsx';
 
-const SignupForm = ({ handleLogin }) => {
-    const navigate = useNavigate();
+const SignupForm = ({ handleLoginPage, handleSignup }) => {
     const [validated, setValidated] = useState(false);
-    const { dispatch, data, signupPayload, authorPostRequest } = useContext(AuthorsContext);
+    const { status, dispatch, message, payload, signup } = useContext(AuthorsContext);
 
-    const registeredAuthor = data?.authors?.filter(author => {
-        return author.email === signupPayload.email;
-    });
-
-    const isEmailUnique = registeredAuthor?.length === 0 || registeredAuthor === undefined;
-    const arePasswordsMatch = signupPayload.password === signupPayload.passwordConfirm;
+    const arePasswordsMatch = payload.password === payload.passwordConfirm
 
     const handlePayload = e => {
         const { name, value } = e.target;
 
         const setPayload = {
-            ...signupPayload,
+            ...payload,
             [name]: value
         };
 
         dispatch({
-            type: 'setSignupPayload',
+            type: 'signup',
             payload: setPayload
         });
     };
@@ -34,9 +28,10 @@ const SignupForm = ({ handleLogin }) => {
         const form = e.currentTarget;
         const isFormValid = form.checkValidity() === true;
 
-        if (isFormValid && arePasswordsMatch && isEmailUnique) {
-            authorPostRequest('create', signupPayload);
-            navigate(`/newAuthorSuccess/${signupPayload.email}`);
+        if (isFormValid) {
+            signup();
+            handleLoginPage();
+            handleSignup();
         }
 
         setValidated(true);
@@ -44,6 +39,7 @@ const SignupForm = ({ handleLogin }) => {
 
     return (
         <Row className="justify-content-center">
+            {status === 'error' && <CustomAlert alert='Error!' error={message}/>}
             <Col xs={11} md={8} lg={6} xl={5}>
                 <h5 className="text-center fw-bold">Welcome!</h5>
                 <h5 className="text-center fw-bold mb-5">
@@ -63,7 +59,7 @@ const SignupForm = ({ handleLogin }) => {
                                 type="text"
                                 name="firstName"
                                 onChange={handlePayload}
-                                value={signupPayload.firstName}
+                                value={payload.firstName}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Required
@@ -76,7 +72,7 @@ const SignupForm = ({ handleLogin }) => {
                                 type="text"
                                 name="lastName"
                                 onChange={handlePayload}
-                                value={signupPayload.lastName}
+                                value={payload.lastName}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Required
@@ -90,7 +86,7 @@ const SignupForm = ({ handleLogin }) => {
                             type="date"
                             name="dateOfBirth"
                             onChange={handlePayload}
-                            value={signupPayload.dateOfBirth}
+                            value={payload.dateOfBirth}
                         />
                         <Form.Control.Feedback type="invalid">
                             Required
@@ -102,16 +98,12 @@ const SignupForm = ({ handleLogin }) => {
                             required
                             type="email"
                             name="email"
-                            value={signupPayload.email}
+                            value={payload.email}
                             onChange={handlePayload}
                         />
                         <Form.Control.Feedback type="invalid">
                             Required
                         </Form.Control.Feedback>
-                        {!isEmailUnique &&
-                            <Form.Control.Feedback className="text-danger">
-                                Account already registered!
-                            </Form.Control.Feedback>}
                     </Form.Group>
                     <Form.Group className="w-100">
                         <Form.Label>Password</Form.Label>
@@ -119,7 +111,7 @@ const SignupForm = ({ handleLogin }) => {
                             required
                             type="password"
                             name="password"
-                            value={signupPayload.password}
+                            value={payload.password}
                             onChange={handlePayload}
                         />
                         <Form.Control.Feedback type="invalid">
@@ -133,7 +125,7 @@ const SignupForm = ({ handleLogin }) => {
                             type="password"
                             name="passwordConfirm"
                             onChange={handlePayload}
-                            value={signupPayload.passwordConfirm}
+                            value={payload.passwordConfirm}
                         />
                         <Form.Control.Feedback type="invalid">
                             Required
@@ -149,7 +141,7 @@ const SignupForm = ({ handleLogin }) => {
                     <p className="mb-0">Already have an account?</p>
                     <Button
                         variant="link"
-                        onClick={handleLogin}
+                        onClick={handleLoginPage}
                         className="p-0">Log in</Button>
                 </div>
             </Col>

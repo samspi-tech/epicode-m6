@@ -1,26 +1,43 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
+import Welcome from "../components/welcome/Welcome.jsx";
+import { isToken } from '../middleware/ProtectedRoutes.jsx';
 import BrandLogo from '../components/brandLogo/BrandLogo.jsx';
 import LoginForm from '../components/forms/loginForm/LoginForm.jsx';
 import SignupForm from '../components/forms/signupForm/SignupForm.jsx';
-import { useState } from 'react';
 
 const LoginPage = () => {
+    const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
+    const [isSignup, setIsSignup] = useState(true);
 
-    const handleLogin = () => {
+    const handleSignup = () => {
+        setIsSignup(prevState => !prevState);
+    };
+
+    const handleLoginPage = () => {
+        setIsSignup(false);
         setIsLogin(prevState => !prevState);
     };
 
+    useEffect(() => {
+        const token = isToken();
+
+        if (token) navigate('/homepage', { replace: true });
+    }, [navigate]);
+
     return (
-        <Container className="vh-100 d-flex flex-column justify-content-center gap-4">
+        <Container className="vh-100 d-flex flex-column justify-content-center gap-4 position-relative">
+            {isSignup && <Welcome handleSignup={handleSignup}/>}
             <Row>
                 <Col className="d-flex justify-content-center">
                     <BrandLogo nav={'/'} fsLogo="display-2" w="65" h="65"/>
                 </Col>
             </Row>
             {isLogin
-                ? <LoginForm handleLogin={handleLogin}/>
-                : <SignupForm handleLogin={handleLogin}/>}
+                ? <LoginForm handleLoginPage={handleLoginPage}/>
+                : <SignupForm handleLoginPage={handleLoginPage} handleSignup={handleSignup}/>}
         </Container>
     );
 };

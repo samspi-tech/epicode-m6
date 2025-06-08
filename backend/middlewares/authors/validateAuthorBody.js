@@ -18,7 +18,7 @@ const authorBodyValidation = [
         .isLength({ min: 8 })
         .withMessage("Password can't be shorter than 8 chars")
         .isString()
-        .withMessage('Password must be string'),
+        .withMessage('Password must be a string'),
     body('dateOfBirth')
         .notEmpty()
         .withMessage("DateOfBirth can't be empty")

@@ -1,6 +1,7 @@
 const AuthorSchema = require('../models/authors');
 const BlogPostSchema = require('../models/blogPost');
 const { calcTotalPages, orderDirection, calcSkip } = require('../utils/order');
+const AuthorNotFoundException = require('../exceptions/authors/authorsNotFoundException');
 
 const findAllBlogPosts = async (title = '', page, pageSize, field, order) => {
     const totalBlogPosts = await BlogPostSchema.countDocuments();
@@ -20,7 +21,8 @@ const findAllBlogPosts = async (title = '', page, pageSize, field, order) => {
         .sort(orderDirection(field, order))
         .limit(pageSize)
         .skip(calcSkip(page, pageSize))
-        .populate('author');
+        .populate('author', ['firstName', 'lastName'])
+        .populate('comments', ['comment', 'vote']);
 
     return {
         blogPosts,
@@ -29,29 +31,33 @@ const findAllBlogPosts = async (title = '', page, pageSize, field, order) => {
     };
 };
 
-const findSingleBlogPost = async (id) => {
-    return BlogPostSchema.findById(id);
+const findSingleBlogPost = async (postId) => {
+    return BlogPostSchema
+        .findById(postId)
+        .populate('comments');
 };
 
-const createBlogPost = async (post, id) => {
-    const author = await AuthorSchema.findById(id);
-    const newPost = new BlogPostSchema(post);
-    const authorPost = await newPost.save();
+const createBlogPost = async (postPayload, authorId) => {
+    const author = await AuthorSchema.findById(authorId);
+    if (!author) throw new AuthorNotFoundException();
+
+    const newPost = new BlogPostSchema(postPayload);
+    const authorBlogPost = await newPost.save();
 
     await AuthorSchema.updateOne(
         { _id: author._id },
-        { $push: { blogPosts: authorPost } });
+        { $push: { blogPosts: authorBlogPost } });
 
-    return authorPost;
+    return authorBlogPost;
 };
 
-const updateBlogPost = async (id, payload) => {
+const updateBlogPost = async (postId, postPayload) => {
     const option = { new: true };
-    return BlogPostSchema.findByIdAndUpdate(id, payload, option);
+    return BlogPostSchema.findByIdAndUpdate(postId, postPayload, option);
 };
 
-const deleteBlogPost = async (id) => {
-    return BlogPostSchema.findByIdAndDelete(id);
+const deleteBlogPost = async (postId) => {
+    return BlogPostSchema.findByIdAndDelete(postId);
 };
 
 module.exports = {
