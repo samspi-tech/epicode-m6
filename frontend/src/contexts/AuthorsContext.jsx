@@ -30,10 +30,6 @@ export const AuthorsProvider = ({ children }) => {
         }
     };
 
-    // useEffect(() => {
-    //     getMe()
-    // }, [token, status])
-
     const signup = async () => {
         try {
             const response = await fetch('http://localhost:9099/authors/create',

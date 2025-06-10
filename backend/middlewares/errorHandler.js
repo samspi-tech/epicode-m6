@@ -33,7 +33,7 @@ const errorHandler = (err, req, res, next) => {
                 .status(400)
                 .send({
                     statusCode: 400,
-                    message: 'Please check if your id is correct',
+                    message: 'Please check if your parameter is correct',
                     error: 'Mongoose CastError',
                 });
         }

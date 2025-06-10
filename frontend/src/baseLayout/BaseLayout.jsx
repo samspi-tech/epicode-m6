@@ -4,12 +4,12 @@ import { AuthorsContext } from "../contexts/AuthorsContext.jsx";
 import Navigation from '../components/navigation/Navigation.jsx';
 
 const BaseLayout = ({ children }) => {
-    const token = isToken()
-    const { getMe } = useContext(AuthorsContext)
+    const token = isToken();
+    const { getMe } = useContext(AuthorsContext);
 
     useEffect(() => {
-        getMe(token)
-    }, [])
+        getMe(token);
+    }, []);
 
     return (
         <div className="d-flex flex-column vh-100">

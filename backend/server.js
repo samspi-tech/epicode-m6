@@ -11,6 +11,7 @@ const authorsRoute = require('./routes/author.route');
 const blogPostsRoute = require('./routes/blogPost.route');
 const commentRoute = require('./routes/comment.route');
 const authRoute = require('./routes/auth.route');
+const googleAuthRoute = require('./routes/google.route');
 
 const server = express();
 
@@ -23,6 +24,7 @@ server.use('/authors', authorsRoute);
 server.use('/blogPosts', blogPostsRoute);
 server.use('/comments', commentRoute);
 server.use('/auth', authRoute);
+server.use('/', googleAuthRoute);
 
 server.use(errorHandler);
 

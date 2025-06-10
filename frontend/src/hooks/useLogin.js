@@ -29,7 +29,6 @@ export const useLogin = () => {
                         'Content-Type': 'application/json'
                     }
                 });
-
             const jsonResponse = await response.json();
 
             if (response.ok) {
