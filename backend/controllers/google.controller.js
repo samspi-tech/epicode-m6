@@ -9,7 +9,7 @@ const manageOauthCallback = async (req, res, next) => {
             process.env.JSON_WEB_TOKEN_SECRET,
             { expiresIn: process.env.JSON_WEB_TOKEN_EXPIRES_IN });
 
-        const redirectUrl = `http://localhost:5173/success/user?token=${encodeURIComponent(token)}`;
+        const redirectUrl = `${process.env.CLIENT_BASE_URL}/success/user?token=${encodeURIComponent(token)}`;
         res.redirect(redirectUrl);
     } catch (e) {
         next(e);

@@ -21,7 +21,7 @@ export const useLogin = () => {
 
     const login = async () => {
         try {
-            const response = await fetch('http://localhost:9099/auth/login',
+            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`,
                 {
                     method: 'POST',
                     body: JSON.stringify(payload),

@@ -9,7 +9,7 @@ export const AuthorsProvider = ({ children }) => {
 
     const getMe = async (token) => {
         try {
-            const response = await fetch('http://localhost:9099/auth/me',
+            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/me`,
                 {
                     headers: {
                         'Authorization': `${token}`
@@ -32,7 +32,7 @@ export const AuthorsProvider = ({ children }) => {
 
     const signup = async () => {
         try {
-            const response = await fetch('http://localhost:9099/authors/create',
+            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/authors/create`,
                 {
                     method: 'POST',
                     body: JSON.stringify(payload),

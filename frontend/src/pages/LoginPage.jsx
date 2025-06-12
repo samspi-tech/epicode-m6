@@ -28,7 +28,7 @@ const LoginPage = () => {
     }, [navigate]);
 
     const onRedirectGoogle = () => {
-        window.location.href = 'http://localhost:9099/google'
+        window.location.href = `${import.meta.env.VITE_SERVER_BASE_URL}/google`
     }
 
     return (

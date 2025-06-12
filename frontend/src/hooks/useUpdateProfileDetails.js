@@ -9,7 +9,7 @@ export const useUpdateProfileDetails = (file, fields) => {
         fileData.append('avatar', file);
 
         try {
-            const response = await fetch(`http://localhost:9099/authors/cloud-upload/avatar`,
+            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/authors/cloud-upload/avatar`,
                 {
                     method: 'POST',
                     body: fileData,
@@ -34,7 +34,7 @@ export const useUpdateProfileDetails = (file, fields) => {
                 avatar: uploadedFile.avatar
             };
 
-            const response = await fetch(`http://localhost:9099/authors/update/${authorId}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/authors/update/${authorId}`, {
                 method: 'PATCH',
                 body: JSON.stringify(payload),
                 headers: {

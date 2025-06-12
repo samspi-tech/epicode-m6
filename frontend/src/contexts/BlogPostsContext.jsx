@@ -14,7 +14,7 @@ export const BlogPostProvider = ({ children }) => {
     const getAllBlogPosts = async () => {
         try {
             const response = await fetch(
-                `http://localhost:9099/blogPosts?title=${title}&pageSize=3&page=${page}`,
+                `${import.meta.env.VITE_SERVER_BASE_URL}/blogPosts?title=${title}&pageSize=3&page=${page}`,
                 {
                     headers: {
                         'Authorization': `${token}`
@@ -41,7 +41,7 @@ export const BlogPostProvider = ({ children }) => {
     const getAuthorBlogPosts = async () => {
         try {
             const response = await fetch(
-                `http://localhost:9099/blogPosts/author/${authorId}`,
+                `${import.meta.env.VITE_SERVER_BASE_URL}/blogPosts/author/${authorId}`,
                 {
                     headers: {
                         'Authorization': `${token}`
@@ -64,7 +64,7 @@ export const BlogPostProvider = ({ children }) => {
     const createBlogPost = async () => {
         try {
             const response = await fetch(
-                `http://localhost:9099/blogPosts/create/${authorId}`,
+                `${import.meta.env.VITE_SERVER_BASE_URL}/blogPosts/create/${authorId}`,
                 {
                     method: 'POST',
                     body: JSON.stringify(payload),
