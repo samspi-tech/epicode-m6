@@ -23,7 +23,7 @@ const logoutFromGoogle = async (req, res, next) => {
                 if (err) return next(err);
             });
 
-            res.redirect('http://localhost:5173');
+            res.redirect(`${process.env.CLIENT_BASE_URL}`);
         });
     } catch (e) {
         next(e);
