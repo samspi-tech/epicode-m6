@@ -11,10 +11,13 @@ const Post = ({ post }) => {
             sm={8}
             lg={9}
             xl={8}
-            className="post-container d-flex flex-column flex-lg-row mx-2 mx-md-0"
+            className="post-container d-flex flex-column flex-lg-row mx-2 mx-md-0 px-0"
         >
             <div className="post-img-container order-1 order-lg-0">
-                <img src={cover} alt="Post image"/>
+                <img
+                    src={cover}
+                    alt="Post image"
+                />
             </div>
             <div className="post-body d-flex flex-column justify-content-between p-3 w-100">
                 <div>

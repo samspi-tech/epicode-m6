@@ -1,14 +1,15 @@
-import { createContext, useReducer } from 'react';
-import { isToken } from "../middleware/ProtectedRoutes.jsx";
+import { createContext, useReducer, } from 'react';
+import { decodedToken, isToken } from "../middleware/ProtectedRoutes.jsx";
 import { blogPostReducer, initialState } from '../reducers/blogPostsReducer.js';
 
 export const BlogPostContext = createContext();
 
 export const BlogPostProvider = ({ children }) => {
     const [state, dispatch] = useReducer(blogPostReducer, initialState);
-    const { page, title, payload, data } = state;
-    
-    const token = isToken()
+    const { status, page, title, payload, data, authorPosts } = state;
+
+    const token = isToken();
+    const authorId = decodedToken().id;
 
     const getAllBlogPosts = async () => {
         try {
@@ -37,15 +38,39 @@ export const BlogPostProvider = ({ children }) => {
         }
     };
 
+    const getAuthorBlogPosts = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:9099/blogPosts/author/${authorId}`,
+                {
+                    headers: {
+                        'Authorization': `${token}`
+                    }
+                });
+            const posts = await response.json();
+
+            dispatch({
+                type: 'authorPostsReceived',
+                payload: posts.authorBlogPosts
+            });
+        } catch (e) {
+            dispatch({
+                type: 'dataFailed',
+                message: e.message
+            });
+        }
+    };
+
     const createBlogPost = async () => {
         try {
             const response = await fetch(
-                'http://localhost:9099/blogPosts/create',
+                `http://localhost:9099/blogPosts/create/${authorId}`,
                 {
                     method: 'POST',
                     body: JSON.stringify(payload),
                     headers: {
-                        'Content-type': 'application/json'
+                        'Authorization': `${token}`,
+                        'Content-Type': 'application/json'
                     }
                 }
             );
@@ -58,6 +83,11 @@ export const BlogPostProvider = ({ children }) => {
             });
         } finally {
             getAllBlogPosts();
+            getAuthorBlogPosts();
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         }
     };
 
@@ -66,11 +96,14 @@ export const BlogPostProvider = ({ children }) => {
             value={{
                 state,
                 data,
+                authorPosts,
                 page,
+                status,
                 title,
                 payload,
                 dispatch,
                 getAllBlogPosts,
+                getAuthorBlogPosts,
                 createBlogPost
             }}
         >

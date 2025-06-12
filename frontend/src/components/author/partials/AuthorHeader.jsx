@@ -6,13 +6,12 @@ const AuthorHeader = ({ author }) => {
     const { firstName, lastName, avatar } = author;
 
     return (
-        <Col>
+        <Col className='mb-5'>
             <header className="profile-header position-relative">
                 <div className="author-page-picture">
                     <img
                         src={avatar}
                         alt="Profile picture"
-                        className="img-fluid"
                     />
                 </div>
                 <h1 className="author-page-name mb-0">

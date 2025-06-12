@@ -18,7 +18,7 @@ const LoginForm = ({ handleLoginPage }) => {
     };
 
     return (
-        <Row className="justify-content-center">
+        <Row className="flex-column justify-content-center align-items-center">
             {error && <CustomAlert alert='Error!' error={error}/>}
             <Col xs={11} md={7} lg={5} xl={4}>
                 <Form

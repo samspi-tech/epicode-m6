@@ -5,14 +5,12 @@ import { BlogPostContext } from '../contexts/BlogPostsContext.jsx';
 import CustomPagination from '../components/customPagination/CustomPagination.jsx';
 
 const Homepage = () => {
-    const { title, data, status } = useContext(BlogPostContext);
+    const { title, status } = useContext(BlogPostContext);
 
     return (
         <BaseLayout>
             <BlogPosts/>
-            {status === 'ready' && title === '' && data.blogPosts.length > 3 &&
-                <CustomPagination/>
-            }
+            {status === 'ready' && title === '' && <CustomPagination/>}
         </BaseLayout>
     );
 };

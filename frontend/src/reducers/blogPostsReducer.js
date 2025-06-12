@@ -1,13 +1,14 @@
 export const initialState = {
     data: null,
+    authorPosts: null,
     status: 'loading',
     message: '',
     page: 1,
     title: '',
     payload: {
-        cover: '',
+        cover: 'https://picsum.photos/200/300',
         title: '',
-        author: '',
+        email: '',
         content: '',
         category: '',
         readTime: { value: 1 }
@@ -22,6 +23,13 @@ export const blogPostReducer = (state, action) => {
                 status: 'ready',
                 data: action.payload
             };
+
+        case 'authorPostsReceived':
+            return {
+                ...state,
+                status: 'ready',
+                authorPosts: action.payload
+            }
 
         case 'dataFailed':
             return {

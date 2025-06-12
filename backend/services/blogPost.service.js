@@ -37,6 +37,12 @@ const findSingleBlogPost = async (postId) => {
         .populate('comments');
 };
 
+const findAuthorBlogPosts = async (authorId) => {
+    return BlogPostSchema
+        .find({ author: authorId })
+        .populate('author');
+};
+
 const createBlogPost = async (postPayload, authorId) => {
     const author = await AuthorSchema.findById(authorId);
     if (!author) throw new AuthorNotFoundException();
@@ -63,6 +69,7 @@ const deleteBlogPost = async (postId) => {
 module.exports = {
     findAllBlogPosts,
     findSingleBlogPost,
+    findAuthorBlogPosts,
     createBlogPost,
     updateBlogPost,
     deleteBlogPost,

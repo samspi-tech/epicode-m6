@@ -62,6 +62,23 @@ const getSingleBlogPost = async (req, res, next) => {
     }
 };
 
+const getAuthorBlogPosts = async (req, res, next) => {
+    try {
+        const { authorId } = req.params;
+
+        const authorBlogPosts = await blogPostsService.findAuthorBlogPosts(authorId);
+
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                authorBlogPosts
+            });
+    } catch (e) {
+        next(e);
+    }
+};
+
 const createBlogPost = async (req, res, next) => {
     try {
         const { body } = req;
@@ -140,6 +157,7 @@ const deleteBlogPost = async (req, res, next) => {
 module.exports = {
     getAllBlogPosts,
     getSingleBlogPost,
+    getAuthorBlogPosts,
     createBlogPost,
     updateBlogPost,
     deleteBlogPost,

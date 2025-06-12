@@ -4,10 +4,25 @@ import { useUpdateProfileDetails } from '../../../hooks/useUpdateProfileDetails.
 
 const AddImageForm = () => {
     const [file, setFile] = useState(null);
-    const { handleSubmit } = useUpdateProfileDetails(file);
+
+    const [fields, setFields] = useState({
+        firstName: '',
+        lastName: ''
+    });
+
+    const { handleSubmit } = useUpdateProfileDetails(file, fields);
 
     const handleFileValue = e => {
         setFile(e.target.files[0]);
+    };
+
+    const handleFields = e => {
+        const { name, value } = e.target;
+
+        setFields({
+            ...fields,
+            [name]: value
+        });
     };
 
     return (
@@ -16,12 +31,32 @@ const AddImageForm = () => {
             encType="multipart/form-data"
             className="my-2 d-flex flex-column"
         >
-            <input
-                required
-                type="file"
-                name="avatar"
-                onChange={handleFileValue}
-            />
+            <Form.Group className='mb-3'>
+                <Form.Label>Profile picture</Form.Label>
+                <Form.Control
+                    type="file"
+                    name="avatar"
+                    onChange={handleFileValue}
+                />
+            </Form.Group>
+            <Form.Group className='mb-3'>
+                <Form.Label>First name</Form.Label>
+                <Form.Control
+                    type="text"
+                    name="firstName"
+                    onChange={handleFields}
+                    value={fields.firstName}
+                />
+            </Form.Group>
+            <Form.Group className='mb-3'>
+                <Form.Label>Last name</Form.Label>
+                <Form.Control
+                    type="text"
+                    name="lastName"
+                    onChange={handleFields}
+                    value={fields.lastName}
+                />
+            </Form.Group>
             <Button type="submit" className="mt-4 align-self-end">
                 Post
             </Button>

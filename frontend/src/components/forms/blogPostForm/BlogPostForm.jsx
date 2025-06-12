@@ -2,8 +2,10 @@ import './blogPostForm.css';
 import { useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { BlogPostContext } from '../../../contexts/BlogPostsContext.jsx';
+import { AuthorsContext } from "../../../contexts/AuthorsContext.jsx";
 
 const BlogPostForm = () => {
+    const { data } = useContext(AuthorsContext)
     const { payload, dispatch, createBlogPost } = useContext(BlogPostContext);
 
     const handleSubmit = (e) => {
@@ -22,7 +24,10 @@ const BlogPostForm = () => {
 
         dispatch({
             type: 'setPayload',
-            payload: setPayload
+            payload: {
+                ...setPayload,
+                email: data.email
+            }
         });
     };
 
@@ -52,17 +57,7 @@ const BlogPostForm = () => {
                 value={payload.cover}
                 onChange={handlePayload}
                 className="blog-post-form text-center fs-5 w-100"
-                placeholder="Paste an image URL of your choice (you can find one for free using Unslpash)"
-                required
-            />
-            <input
-                type="text"
-                name="author"
-                value={payload.author}
-                onChange={handlePayload}
-                className="blog-post-form text-center fs-5 w-100"
-                placeholder="We need your email to share your post with other users"
-                required
+                placeholder="Paste an image URL of your choice (optional)"
             />
             <div className="align-self-center">
                 <input

@@ -9,7 +9,6 @@ const ProfileIcon = () => {
             {status === 'ready' &&
                 <img
                     src={data.avatar}
-                    className="img-fluid"
                     alt="Author profile picture"
                 />}
         </div>
