@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "@sendgrid/mail": "^8.1.5"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.27.0",
-    "globals": "^16.2.0"
-  }
-}
