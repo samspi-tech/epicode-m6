@@ -5,7 +5,7 @@ const startServer = require('./config/db');
 const errorHandler = require('./middlewares/errorHandler');
 const verifiedToken = require('./middlewares/auth/verifiedToken');
 
-const PORT = 9099;
+const PORT = process.env.PORT || 9099;
 
 const authorsRoute = require('./routes/author.route');
 const blogPostsRoute = require('./routes/blogPost.route');
