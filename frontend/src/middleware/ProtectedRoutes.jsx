@@ -5,10 +5,22 @@ export const isToken = () => {
     return JSON.parse(localStorage.getItem('token'));
 };
 
-export const decodedToken = () => {
+const saveAuthorIdToLocalStorage = () => {
     const token = isToken();
-    return jwtDecode(token);
-}
+    const decodedToken = jwtDecode(token).id;
+
+    localStorage.setItem('authorId', JSON.stringify(decodedToken));
+};
+
+export const isAuthorId = () => {
+    const token = isToken();
+
+    if (token) {
+        saveAuthorIdToLocalStorage();
+
+        return JSON.parse(localStorage.getItem('authorId'));
+    }
+};
 
 const ProtectedRoutes = () => {
     const isAuthorized = isToken();

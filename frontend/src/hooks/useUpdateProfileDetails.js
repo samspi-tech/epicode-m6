@@ -1,8 +1,8 @@
-import { decodedToken, isToken } from "../middleware/ProtectedRoutes.jsx";
+import { isAuthorId, isToken } from "../middleware/ProtectedRoutes.jsx";
 
 export const useUpdateProfileDetails = (file, fields) => {
     const token = isToken();
-    const authorId = decodedToken().id;
+    const authorId = isAuthorId();
 
     const uploadFile = async () => {
         const fileData = new FormData();
@@ -33,6 +33,8 @@ export const useUpdateProfileDetails = (file, fields) => {
                 ...fields,
                 avatar: uploadedFile.avatar
             };
+
+            console.log(payload);
 
             const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/authors/update/${authorId}`, {
                 method: 'PATCH',

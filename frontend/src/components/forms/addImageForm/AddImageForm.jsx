@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useUpdateProfileDetails } from '../../../hooks/useUpdateProfileDetails.js';
+import { AuthorsContext } from "../../../contexts/AuthorsContext.jsx";
 
 const AddImageForm = () => {
+    const { data } = useContext(AuthorsContext);
     const [file, setFile] = useState(null);
 
     const [fields, setFields] = useState({
-        firstName: '',
-        lastName: ''
+        firstName: `${data.firstName}`,
+        lastName: `${data.lastName}`
     });
 
     const { handleSubmit } = useUpdateProfileDetails(file, fields);

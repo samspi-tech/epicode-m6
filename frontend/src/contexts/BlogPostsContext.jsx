@@ -1,5 +1,5 @@
 import { createContext, useReducer, } from 'react';
-import { decodedToken, isToken } from "../middleware/ProtectedRoutes.jsx";
+import { isAuthorId, isToken } from "../middleware/ProtectedRoutes.jsx";
 import { blogPostReducer, initialState } from '../reducers/blogPostsReducer.js';
 
 export const BlogPostContext = createContext();
@@ -9,7 +9,7 @@ export const BlogPostProvider = ({ children }) => {
     const { status, page, title, payload, data, authorPosts } = state;
 
     const token = isToken();
-    const authorId = decodedToken().id;
+    const authorId = isAuthorId();
 
     const getAllBlogPosts = async () => {
         try {
