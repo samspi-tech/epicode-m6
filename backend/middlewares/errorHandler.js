@@ -37,16 +37,15 @@ const errorHandler = (err, req, res, next) => {
                     error: 'Mongoose CastError',
                 });
         }
-        default: {
-            res
-                .status(500)
-                .send({
-                    statusCode: 500,
-                    message: 'An error has occurred, please try again later or contact support',
-                    error: 'Internal server error',
-                });
-        }
     }
+    
+    res
+        .status(500)
+        .send({
+            statusCode: 500,
+            message: 'An error has occurred, please try again later or contact support',
+            error: 'Internal server error',
+        });
 };
 
 module.exports = errorHandler;
