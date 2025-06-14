@@ -16,8 +16,8 @@ const googleAuthRoute = require('./routes/google.route');
 const server = express();
 
 server.use(cors({
-    // origin: ['https://epicode-m6.vercel.app'],
-    // credentials: true
+    origin: ['https://epicode-m6.vercel.app'],
+    credentials: true
 }));
 server.use(express.json());
 
