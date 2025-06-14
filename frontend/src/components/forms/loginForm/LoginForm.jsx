@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useLogin } from "../../../hooks/useLogin.js";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import CustomAlert from "../../customAlert/CustomAlert.jsx";
+import OauthButton from "../oauthButton/OauthButton.jsx";
 
-const LoginForm = ({ handleLoginPage }) => {
+const LoginForm = ({ handleLoginPage, redirect }) => {
     const { payload, error, handlePayload, login } = useLogin();
     const [validated, setValidated] = useState(false);
 
@@ -54,6 +55,10 @@ const LoginForm = ({ handleLoginPage }) => {
                         </Form.Control.Feedback>
                     </Form.Group>
                     <Button type="submit" className="w-100 mt-2 py-2">Login</Button>
+                    <OauthButton
+                        text='Google'
+                        redirect={redirect}
+                    />
                 </Form>
                 <div className="mt-3 d-flex justify-content-center align-items-end gap-2">
                     <p className="mb-0">You don't have an account?</p>

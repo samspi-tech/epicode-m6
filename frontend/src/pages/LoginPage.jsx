@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Col, Container, Row } from 'react-bootstrap';
 import Welcome from "../components/welcome/Welcome.jsx";
 import { isToken } from '../middleware/ProtectedRoutes.jsx';
 import BrandLogo from '../components/brandLogo/BrandLogo.jsx';
-import { Button, Col, Container, Row } from 'react-bootstrap';
 import LoginForm from '../components/forms/loginForm/LoginForm.jsx';
 import SignupForm from '../components/forms/signupForm/SignupForm.jsx';
 
@@ -40,18 +40,15 @@ const LoginPage = () => {
                 </Col>
             </Row>
             {isLogin
-                ? <LoginForm handleLoginPage={handleLoginPage}/>
-                : <SignupForm handleLoginPage={handleLoginPage} handleSignup={handleSignup}/>}
-            <Button
-                variant='danger'
-                onClick={onRedirectGoogle}
-                className='align-self-center p-2 shadow'
-            >
-                Login with{' '}
-                <span className='fw-semibold'>
-                    Google
-                </span>
-            </Button>
+                ? <LoginForm
+                    handleLoginPage={handleLoginPage}
+                    redirect={onRedirectGoogle}
+                />
+                : <SignupForm
+                    handleLoginPage={handleLoginPage}
+                    handleSignup={handleSignup}
+                    redirect={onRedirectGoogle}
+                />}
         </Container>
     );
 };

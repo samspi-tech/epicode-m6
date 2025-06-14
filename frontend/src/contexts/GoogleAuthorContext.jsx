@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import { createContext, useState } from "react";
 
 export const GoogleAuthorContext = createContext();
@@ -17,7 +18,10 @@ export const GoogleAuthorProvider = ({ children }) => {
             });
 
             const author = await response.json();
-            setAuthorId(author.author._id);
+
+            author
+                ? setAuthorId(author.author._id)
+                : <Navigate to={'/googleSignup'} replace/>
 
         } catch (e) {
             setError(e.message);

@@ -2,10 +2,12 @@ import { useContext, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import CustomAlert from "../../customAlert/CustomAlert.jsx";
 import { AuthorsContext } from '../../../contexts/AuthorsContext.jsx';
+import OauthButton from "../oauthButton/OauthButton.jsx";
 
-const SignupForm = ({ handleLoginPage, handleSignup }) => {
+const SignupForm = ({ handleLoginPage, handleSignup, redirect }) => {
     const [validated, setValidated] = useState(false);
-    const { status, dispatch, message, payload, signup } = useContext(AuthorsContext);
+    const { state, status, dispatch, message, signup } = useContext(AuthorsContext);
+    const { payload } = state;
 
     const arePasswordsMatch = payload.password === payload.passwordConfirm
 
@@ -29,7 +31,7 @@ const SignupForm = ({ handleLoginPage, handleSignup }) => {
         const isFormValid = form.checkValidity() === true;
 
         if (isFormValid) {
-            signup();
+            signup(payload);
             handleLoginPage();
             handleSignup();
         }
@@ -136,6 +138,10 @@ const SignupForm = ({ handleLoginPage, handleSignup }) => {
                             </Form.Control.Feedback>}
                     </Form.Group>
                     <Button type="submit" className="w-100 mt-2 py-2">Sign up</Button>
+                    <OauthButton
+                        text='Google'
+                        redirect={redirect}
+                    />
                 </Form>
                 <div className="mt-3 d-flex justify-content-center align-items-end gap-2">
                     <p className="mb-0">Already have an account?</p>

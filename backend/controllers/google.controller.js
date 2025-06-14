@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const authorService = require('../services/author.service');
 
 const manageOauthCallback = async (req, res, next) => {
     try {
@@ -9,7 +10,13 @@ const manageOauthCallback = async (req, res, next) => {
             process.env.JSON_WEB_TOKEN_SECRET,
             { expiresIn: process.env.JSON_WEB_TOKEN_EXPIRES_IN });
 
-        const redirectUrl = `${process.env.CLIENT_BASE_URL}/success/user?token=${encodeURIComponent(token)}`;
+        const userEmail = user.emails[0].value;
+        const isRegisteredUser = await authorService.findSingleAuthorByEmail(userEmail);
+
+        const redirectUrl = isRegisteredUser
+            ? `${process.env.CLIENT_BASE_URL}/success/user?token=${encodeURIComponent(token)}`
+            : `${process.env.CLIENT_BASE_URL}/googleSignup/user?token=${encodeURIComponent(token)}`;
+
         res.redirect(redirectUrl);
     } catch (e) {
         next(e);
