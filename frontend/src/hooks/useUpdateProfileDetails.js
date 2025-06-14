@@ -34,8 +34,6 @@ export const useUpdateProfileDetails = (file, fields) => {
                 avatar: uploadedFile.avatar
             };
 
-            console.log(payload);
-
             const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/authors/update/${authorId}`, {
                 method: 'PATCH',
                 body: JSON.stringify(payload),

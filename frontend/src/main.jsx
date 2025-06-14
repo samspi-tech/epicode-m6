@@ -6,15 +6,18 @@ import App from './App.jsx';
 import { AuthorsProvider } from './contexts/AuthorsContext.jsx';
 import { BlogPostProvider } from './contexts/BlogPostsContext.jsx';
 import { SearchPostProvider } from './contexts/SearchPostContext.jsx';
+import { GoogleAuthorProvider } from "./contexts/GoogleAuthorContext.jsx";
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <AuthorsProvider>
-            <SearchPostProvider>
-                <BlogPostProvider>
-                    <App />
-                </BlogPostProvider>
-            </SearchPostProvider>
-        </AuthorsProvider>
+        <GoogleAuthorProvider>
+            <AuthorsProvider>
+                <SearchPostProvider>
+                    <BlogPostProvider>
+                        <App/>
+                    </BlogPostProvider>
+                </SearchPostProvider>
+            </AuthorsProvider>
+        </GoogleAuthorProvider>
     </StrictMode>
 );

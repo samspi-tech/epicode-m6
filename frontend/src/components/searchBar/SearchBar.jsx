@@ -2,10 +2,12 @@ import './searchBar.css';
 import { Search } from 'lucide-react';
 import { useContext, useEffect } from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
+import { isToken } from "../../middleware/ProtectedRoutes.jsx";
 import { BlogPostContext } from '../../contexts/BlogPostsContext.jsx';
 import { SearchPostContext } from '../../contexts/SearchPostContext.jsx';
 
 const SearchBar = () => {
+    const token = isToken();
     const { query, handleInputChange } = useContext(SearchPostContext);
     const { page, title, dispatch, getAllBlogPosts } = useContext(BlogPostContext);
 
@@ -20,8 +22,8 @@ const SearchBar = () => {
     };
 
     useEffect(() => {
-        getAllBlogPosts();
-    }, [page, title]);
+        getAllBlogPosts(token);
+    }, [page, title, token]);
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -31,7 +33,7 @@ const SearchBar = () => {
                         type="submit"
                         className="border-0 p-0 bg-transparent"
                     >
-                        <Search />
+                        <Search/>
                     </button>
                 </InputGroup.Text>
                 <Form.Control

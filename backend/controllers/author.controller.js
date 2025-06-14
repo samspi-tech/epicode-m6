@@ -61,6 +61,24 @@ const getSingleAuthor = async (req, res, next) => {
     }
 };
 
+const getSingleAuthorByEmail = async (req, res, next) => {
+    try {
+        const { email } = req.params;
+
+        const author = await authorsService.findSingleAuthorByEmail(email);
+        if (!author) throw new AuthorsNotFound();
+
+        res
+            .status(200)
+            .send({
+                statusCode: 200,
+                author
+            });
+    } catch (e) {
+        next(e);
+    }
+};
+
 const createAuthor = async (req, res, next) => {
     try {
         const { body } = req;
@@ -145,6 +163,7 @@ const deleteAuthor = async (req, res, next) => {
 module.exports = {
     getAllAuthors,
     getSingleAuthor,
+    getSingleAuthorByEmail,
     createAuthor,
     updateAuthor,
     uploadFileOnCloudinary,

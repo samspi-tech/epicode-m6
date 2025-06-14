@@ -12,16 +12,19 @@ const loginAuth = async (email, password) => {
     if (!isPasswordValid) throw new InvalidOrMissingPasswordException();
 
     const token = jwt.sign(
-        { id: author._id },
+        {
+            id: author._id,
+            email: author.email
+        },
         process.env.JSON_WEB_TOKEN_SECRET,
         { expiresIn: process.env.JSON_WEB_TOKEN_EXPIRES_IN });
 
     return { token };
 };
 
-const findMe = async (userId) => {
+const findMe = async (email) => {
     return AuthorSchema
-        .findById(userId)
+        .findOne({ email })
         .select('-password');
 };
 

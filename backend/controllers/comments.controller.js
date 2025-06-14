@@ -59,7 +59,6 @@ const createComment = async (req, res, next) => {
             });
     } catch (e) {
         next(e);
-        console.log(e);
     }
 };
 
@@ -94,7 +93,6 @@ const deleteComment = async (req, res, next) => {
             });
     } catch (e) {
         next(e);
-        console.log(e);
     }
 };
 

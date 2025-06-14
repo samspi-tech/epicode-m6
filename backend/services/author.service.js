@@ -22,6 +22,12 @@ const findSingleAuthor = async (authorId) => {
     return AuthorsSchema.findById(authorId);
 };
 
+const findSingleAuthorByEmail = async (email) => {
+    return AuthorsSchema
+        .findOne({ email })
+        .select('_id');
+};
+
 const createAuthor = async (authorBody) => {
     const newAuthor = new AuthorsSchema(authorBody);
     return await newAuthor.save();
@@ -39,6 +45,7 @@ const deleteAuthor = async (authorId) => {
 module.exports = {
     findAllAuthors,
     findSingleAuthor,
+    findSingleAuthorByEmail,
     createAuthor,
     updateAuthor,
     deleteAuthor,

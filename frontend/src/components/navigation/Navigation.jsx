@@ -10,8 +10,9 @@ import BlogPostForm from '../forms/blogPostForm/BlogPostForm.jsx';
 
 const Navigation = () => {
     const handleLogout = () => {
-        localStorage.clear()
-    }
+        localStorage.clear();
+        sessionStorage.clear();
+    };
 
     return (
         <Container fluid={true}>

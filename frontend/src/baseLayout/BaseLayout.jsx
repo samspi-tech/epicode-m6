@@ -9,7 +9,7 @@ const BaseLayout = ({ children }) => {
 
     useEffect(() => {
         getMe(token);
-    }, []);
+    }, [token]);
 
     return (
         <div className="d-flex flex-column vh-100">

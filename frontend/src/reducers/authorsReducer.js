@@ -12,7 +12,7 @@ export const initialState = {
     }
 };
 
-export const authorsReducer = (state, action) => {
+export const authorsReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'dataReceived': {
             return {
@@ -31,6 +31,7 @@ export const authorsReducer = (state, action) => {
         case 'signup': {
             return {
                 ...state,
+                status: 'signup',
                 payload: action.payload
             }
         }

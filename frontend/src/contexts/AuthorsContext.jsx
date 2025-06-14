@@ -5,7 +5,7 @@ export const AuthorsContext = createContext();
 
 export const AuthorsProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authorsReducer, initialState);
-    const { data, status, payload, message } = state;
+    const { data, status, message } = state;
 
     const getMe = async (token) => {
         try {
@@ -15,7 +15,6 @@ export const AuthorsProvider = ({ children }) => {
                         'Authorization': `${token}`
                     }
                 })
-
             const data = await response.json()
 
             dispatch({
@@ -30,7 +29,7 @@ export const AuthorsProvider = ({ children }) => {
         }
     };
 
-    const signup = async () => {
+    const signup = async (payload) => {
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/authors/create`,
                 {
@@ -59,7 +58,6 @@ export const AuthorsProvider = ({ children }) => {
             dispatch,
             data,
             status,
-            payload,
             message,
             getMe,
             signup

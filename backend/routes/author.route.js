@@ -6,6 +6,7 @@ const authorsController = require('../controllers/author.controller');
 
 authors.get('/', authorsController.getAllAuthors);
 authors.get('/:id', authorsController.getSingleAuthor);
+authors.get('/email/:email', authorsController.getSingleAuthorByEmail);
 authors.post('/create', validation('createAuthor'), authorsController.createAuthor);
 authors.post('/cloud-upload/avatar', cloudUpload.single('avatar'), authorsController.uploadFileOnCloudinary);
 authors.patch('/update/:id', validation('updateAuthor'), authorsController.updateAuthor);

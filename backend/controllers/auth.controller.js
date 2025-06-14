@@ -23,9 +23,13 @@ const loginAuth = async (req, res, next) => {
 
 const getMe = async (req, res, next) => {
     try {
-        const userId = req.user.id;
+        const provider = req.user.provider;
 
-        const user = await authService.findMe(userId);
+        const userEmail = provider === 'google'
+            ? req.user.emails[0].value
+            : req.user.email;
+        
+        const user = await authService.findMe(userEmail);
         if (!user) throw new AuthorNotFoundException();
 
         res

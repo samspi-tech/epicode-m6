@@ -11,7 +11,7 @@ export const BlogPostProvider = ({ children }) => {
     const token = isToken();
     const authorId = isAuthorId();
 
-    const getAllBlogPosts = async () => {
+    const getAllBlogPosts = async (token) => {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_SERVER_BASE_URL}/blogPosts?title=${title}&pageSize=3&page=${page}`,
@@ -38,7 +38,7 @@ export const BlogPostProvider = ({ children }) => {
         }
     };
 
-    const getAuthorBlogPosts = async () => {
+    const getAuthorBlogPosts = async (token) => {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_SERVER_BASE_URL}/blogPosts/author/${authorId}`,

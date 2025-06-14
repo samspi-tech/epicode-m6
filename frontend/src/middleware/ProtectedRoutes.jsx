@@ -1,24 +1,26 @@
-import { Outlet, Navigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import { Outlet, Navigate } from 'react-router-dom';
 
 export const isToken = () => {
     return JSON.parse(localStorage.getItem('token'));
 };
 
-const saveAuthorIdToLocalStorage = () => {
+export const saveAuthorIdToSessionStorage = () => {
     const token = isToken();
     const decodedToken = jwtDecode(token).id;
 
-    localStorage.setItem('authorId', JSON.stringify(decodedToken));
+    const sessionId = JSON.parse(sessionStorage.getItem('authorId'));
+
+    if (!sessionId) sessionStorage.setItem('authorId', JSON.stringify(decodedToken));
 };
 
 export const isAuthorId = () => {
     const token = isToken();
 
     if (token) {
-        saveAuthorIdToLocalStorage();
+        saveAuthorIdToSessionStorage();
 
-        return JSON.parse(localStorage.getItem('authorId'));
+        return JSON.parse(sessionStorage.getItem('authorId'));
     }
 };
 
