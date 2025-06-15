@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useState } from 'react';
 import { authorsReducer, initialState } from '../reducers/authorsReducer.js';
 
 export const AuthorsContext = createContext();
@@ -6,6 +6,8 @@ export const AuthorsContext = createContext();
 export const AuthorsProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authorsReducer, initialState);
     const { data, status, message } = state;
+
+    const [isSignupSuccess, setIsSignupSuccess] = useState(false);
 
     const getMe = async (token) => {
         try {
@@ -49,6 +51,12 @@ export const AuthorsProvider = ({ children }) => {
                 type: 'dataFailed',
                 message: e.message
             })
+        } finally {
+            setIsSignupSuccess(true);
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
         }
     };
 
@@ -60,7 +68,8 @@ export const AuthorsProvider = ({ children }) => {
             status,
             message,
             getMe,
-            signup
+            signup,
+            isSignupSuccess
         }}>
             {children}
         </AuthorsContext.Provider>

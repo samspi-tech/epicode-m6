@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react';
+import OauthButton from "../partials/OauthButton.jsx";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import CustomAlert from "../../customAlert/CustomAlert.jsx";
 import { AuthorsContext } from '../../../contexts/AuthorsContext.jsx';
-import OauthButton from "../oauthButton/OauthButton.jsx";
 
-const SignupForm = ({ handleLoginPage, handleSignup, redirect }) => {
+const SignupForm = ({ handleLoginPage, redirect }) => {
     const [validated, setValidated] = useState(false);
     const { state, status, dispatch, message, signup } = useContext(AuthorsContext);
     const { payload } = state;
@@ -32,8 +32,6 @@ const SignupForm = ({ handleLoginPage, handleSignup, redirect }) => {
 
         if (isFormValid) {
             signup(payload);
-            handleLoginPage();
-            handleSignup();
         }
 
         setValidated(true);
@@ -139,7 +137,8 @@ const SignupForm = ({ handleLoginPage, handleSignup, redirect }) => {
                     </Form.Group>
                     <Button type="submit" className="w-100 mt-2 py-2">Sign up</Button>
                     <OauthButton
-                        text='Google'
+                        text='Sign up'
+                        oauth='Google'
                         redirect={redirect}
                     />
                 </Form>

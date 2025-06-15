@@ -1,24 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import Welcome from "../components/welcome/Welcome.jsx";
 import { isToken } from '../middleware/ProtectedRoutes.jsx';
 import BrandLogo from '../components/brandLogo/BrandLogo.jsx';
+import { AuthorsContext } from "../contexts/AuthorsContext.jsx";
 import LoginForm from '../components/forms/loginForm/LoginForm.jsx';
 import SignupForm from '../components/forms/signupForm/SignupForm.jsx';
 
 const LoginPage = () => {
     const navigate = useNavigate();
-    const [isLogin, setIsLogin] = useState(true);
-    const [isSignup, setIsSignup] = useState(false);
-
-    const handleSignup = () => {
-        setIsSignup(prevState => !prevState);
-    };
+    const { isSignupSuccess } = useContext(AuthorsContext);
+    const [isLoginPage, setIsLoginPage] = useState(true);
 
     const handleLoginPage = () => {
-        setIsSignup(false);
-        setIsLogin(prevState => !prevState);
+        setIsLoginPage(prevState => !prevState);
     };
 
     useEffect(() => {
@@ -33,21 +29,20 @@ const LoginPage = () => {
 
     return (
         <Container className="vh-100 d-flex flex-column justify-content-center gap-4 position-relative">
-            {isSignup && <Welcome handleSignup={handleSignup}/>}
+            {isSignupSuccess && <Welcome/>}
             <Row>
                 <Col className="d-flex justify-content-center">
                     <BrandLogo nav={'/'} fsLogo="display-2" w="65" h="65"/>
                 </Col>
             </Row>
-            {isLogin
+            {isLoginPage
                 ? <LoginForm
-                    handleLoginPage={handleLoginPage}
                     redirect={onRedirectGoogle}
+                    handleLoginPage={handleLoginPage}
                 />
                 : <SignupForm
-                    handleLoginPage={handleLoginPage}
-                    handleSignup={handleSignup}
                     redirect={onRedirectGoogle}
+                    handleLoginPage={handleLoginPage}
                 />}
         </Container>
     );
