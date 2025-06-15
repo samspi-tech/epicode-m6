@@ -1,6 +1,6 @@
 import { Col } from 'react-bootstrap';
 import CustomModal from '../../customModal/CustomModal.jsx';
-import AddImageForm from '../../forms/addImageForm/AddImageForm.jsx';
+import UpdateAuthorDetails from '../../forms/updateAuthorDetails/UpdateAuthorDetails.jsx';
 
 const AuthorHeader = ({ author }) => {
     const { firstName, lastName, avatar } = author;
@@ -22,9 +22,10 @@ const AuthorHeader = ({ author }) => {
                 <CustomModal
                     fullscreen={false}
                     btnText="Settings"
+                    btnVariant='outline-light'
                     text="Update your profile"
                 >
-                    <AddImageForm/>
+                    <UpdateAuthorDetails/>
                 </CustomModal>
             </div>
         </Col>

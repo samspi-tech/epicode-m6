@@ -2,7 +2,7 @@ import './customModal.css';
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-const CustomModal = ({ text, btnText, fullscreen, children }) => {
+const CustomModal = ({ text, btnText, btnVariant, btnClass, fullscreen, children }) => {
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow((prevState) => !prevState);
@@ -12,9 +12,9 @@ const CustomModal = ({ text, btnText, fullscreen, children }) => {
         <div>
             <Button
                 onClick={handleShow}
-                className="border-0"
-                variant="outline-light"
+                variant={btnVariant}
                 data-testid="showModalButton"
+                className={`border-0 ${btnClass}`}
             >
                 <span>{btnText}</span>
             </Button>

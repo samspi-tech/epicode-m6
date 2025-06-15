@@ -36,3 +36,11 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+.blog-post-edit-btn {
+    opacity: 0;
+}
+
+.post-container:hover .blog-post-edit-btn {
+    opacity: 1;
+}

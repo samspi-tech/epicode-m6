@@ -1,15 +1,21 @@
-import { isAuthorId, isToken } from "../middleware/ProtectedRoutes.jsx";
+import { isToken } from "../middleware/ProtectedRoutes.jsx";
+import { useState } from "react";
 
-export const useUpdateProfileDetails = (file, fields) => {
+export const useUpdateProfileDetails = (filePayload) => {
     const token = isToken();
-    const authorId = isAuthorId();
+    const [file, setFile] = useState(null);
 
-    const uploadFile = async () => {
+    const handleFileValue = e => {
+        setFile(e.target.files[0]);
+    };
+
+    const uploadFile = async (dataName, modelName) => {
         const fileData = new FormData();
-        fileData.append('avatar', file);
+        fileData.append(dataName, file);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/authors/cloud-upload/avatar`,
+            const response = await fetch(
+                `${import.meta.env.VITE_SERVER_BASE_URL}/${modelName}/cloud-upload/${dataName}`,
                 {
                     method: 'POST',
                     body: fileData,
@@ -24,17 +30,11 @@ export const useUpdateProfileDetails = (file, fields) => {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
+    const updateWithCloudinaryImage = async (dataName, modelName, id) => {
         try {
-            const uploadedFile = await uploadFile();
-            const payload = {
-                ...fields,
-                avatar: uploadedFile.avatar
-            };
+            const payload = await filePayload();
 
-            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/authors/update/${authorId}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/${modelName}/update/${id}`, {
                 method: 'PATCH',
                 body: JSON.stringify(payload),
                 headers: {
@@ -45,13 +45,15 @@ export const useUpdateProfileDetails = (file, fields) => {
 
             return await response.json();
         } catch (e) {
-            console.error(e.message);
+            console.log(e.message);
         } finally {
             window.location.reload();
         }
-    };
+    }
 
     return {
-        handleSubmit,
+        uploadFile,
+        handleFileValue,
+        updateWithCloudinaryImage
     };
 };

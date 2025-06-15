@@ -6,7 +6,7 @@ const ProfileIcon = () => {
 
     return (
         <div className="profile-picture">
-            {status === 'ready' &&
+            {status === 'ready' && data &&
                 <img
                     src={data.avatar}
                     alt="Author profile picture"

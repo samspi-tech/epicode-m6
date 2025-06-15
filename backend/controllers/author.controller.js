@@ -125,20 +125,6 @@ const updateAuthor = async (req, res, next) => {
     }
 };
 
-const uploadFileOnCloudinary = async (req, res, next) => {
-    try {
-        res
-            .status(200)
-            .send({
-                statusCode: 200,
-                avatar: req.file.path,
-                message: 'Image uploaded successfully',
-            });
-    } catch (e) {
-        next(e);
-    }
-};
-
 const deleteAuthor = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -166,6 +152,5 @@ module.exports = {
     getSingleAuthorByEmail,
     createAuthor,
     updateAuthor,
-    uploadFileOnCloudinary,
     deleteAuthor,
 };

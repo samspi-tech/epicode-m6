@@ -1,10 +1,17 @@
+import { Pencil } from 'lucide-react';
 import { Col } from 'react-bootstrap';
+import CustomModal from "../../customModal/CustomModal.jsx";
+import { isAuthorId } from "../../../middleware/ProtectedRoutes.jsx";
+import UpdateBlogPostCover from "../../forms/updateBlogPostCover/UpdateBlogPostCover.jsx";
 
 const Post = ({ post }) => {
-    const { author, title, category, content, cover, readTime } = post;
+    const authorId = isAuthorId();
+    const { author, title, category, content, cover, readTime, _id: postId } = post;
     const { value: time, unit } = readTime;
 
-    const username = `${author.firstName} ${author.lastName.slice(0, 1)}.`
+    const username = `${author.firstName} ${author.lastName.slice(0, 1)}.`;
+
+    const isEditPostAllowed = author._id === authorId;
 
     return (
         <Col
@@ -21,7 +28,19 @@ const Post = ({ post }) => {
             </div>
             <div className="post-body d-flex flex-column justify-content-between p-3 w-100">
                 <div>
-                    <h3 className="fw-bold">{title}</h3>
+                    <div className='d-flex justify-content-between'>
+                        <h3 className="fw-bold">{title}</h3>
+                        {isEditPostAllowed &&
+                            <CustomModal
+                                fullscreen={false}
+                                btnVariant='outline-dark'
+                                text='Update your post cover'
+                                btnText={<Pencil size={28} className='p-1'/>}
+                                btnClass='blog-post-edit-btn p-0 rounded-circle'
+                            >
+                                <UpdateBlogPostCover postId={postId}/>
+                            </CustomModal>}
+                    </div>
                     <p className="ellipsis">{content}</p>
                 </div>
                 <div className="d-flex justify-content-between">

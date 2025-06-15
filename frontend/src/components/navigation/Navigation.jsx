@@ -48,6 +48,7 @@ const Navigation = () => {
                         <CustomModal
                             fullscreen={true}
                             btnText={<SquarePen/>}
+                            btnVariant='outline-light'
                             text="Share with other users what's in your mind 😎"
                         >
                             <BlogPostForm/>

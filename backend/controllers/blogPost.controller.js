@@ -117,9 +117,7 @@ const updateBlogPost = async (req, res, next) => {
         const { id } = req.params;
         const post = await blogPostsService.updateBlogPost(id, body);
 
-        if (!post) {
-            throw new BlogPostNotFoundException();
-        }
+        if (!post) throw new BlogPostNotFoundException();
 
         res
             .status(200)

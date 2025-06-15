@@ -20,7 +20,7 @@ const Author = () => {
     return (
         <Container>
             <Row>
-                {status === 'ready' && <AuthorHeader author={data}/>}
+                {status === 'ready' && data && <AuthorHeader author={data}/>}
             </Row>
             <Row className='justify-content-center my-5 gy-3'>
                 {postsStatus === 'loading' && <h1>loading...</h1>}
