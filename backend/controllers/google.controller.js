@@ -19,6 +19,7 @@ const manageOauthCallback = async (req, res, next) => {
 
         res.redirect(redirectUrl);
     } catch (e) {
+        console.log(e);
         next(e);
     }
 };
