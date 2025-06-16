@@ -9,7 +9,7 @@ class EmailService {
         try {
             const messageOption = {
                 to,
-                from: 'hello@andrea.io',
+                from: `${process.env.SENDGRID_EMAIL}`,
                 subject,
                 html: message,
             };
