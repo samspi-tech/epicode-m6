@@ -22,15 +22,14 @@ const Success = () => {
 
         const redirect = setTimeout(() => {
             navigate('/homepage', { replace: true });
-        }, 1500);
+        }, 2000);
 
         return () => clearTimeout(redirect);
     }, [token, authorId]);
 
     return (
         <OauthMessage
-            title='Login successfull!'
-            text='Wating to be redirected to homepage...'
+            text='Logging in...'
         />
     )
 };

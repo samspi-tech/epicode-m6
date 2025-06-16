@@ -5,13 +5,20 @@ export const isToken = () => {
     return JSON.parse(localStorage.getItem('token'));
 };
 
-export const saveAuthorIdToSessionStorage = () => {
+const decodeToken = () => {
     const token = isToken();
-    const decodedToken = jwtDecode(token).id;
+    if (token) return jwtDecode(token).id;
+}
 
-    const sessionId = JSON.parse(sessionStorage.getItem('authorId'));
+const getAuthorIdFromSessionStorage = () => {
+    return JSON.parse(sessionStorage.getItem('authorId'));
+}
 
-    if (!sessionId) sessionStorage.setItem('authorId', JSON.stringify(decodedToken));
+const saveAuthorIdToSessionStorage = () => {
+    const authorId = decodeToken();
+    const sessionId = getAuthorIdFromSessionStorage();
+
+    if (!sessionId) sessionStorage.setItem('authorId', JSON.stringify(authorId));
 };
 
 export const isAuthorId = () => {
@@ -19,14 +26,12 @@ export const isAuthorId = () => {
 
     if (token) {
         saveAuthorIdToSessionStorage();
-
-        return JSON.parse(sessionStorage.getItem('authorId'));
+        return getAuthorIdFromSessionStorage();
     }
 };
 
 const ProtectedRoutes = () => {
     const isAuthorized = isToken();
-
     return isAuthorized ? <Outlet/> : <Navigate to={'/'} replace/>;
 };
 

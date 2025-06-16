@@ -1,16 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
-import Welcome from "../components/welcome/Welcome.jsx";
 import { isToken } from '../middleware/ProtectedRoutes.jsx';
 import BrandLogo from '../components/brandLogo/BrandLogo.jsx';
-import { AuthorsContext } from "../contexts/AuthorsContext.jsx";
 import LoginForm from '../components/forms/loginForm/LoginForm.jsx';
 import SignupForm from '../components/forms/signupForm/SignupForm.jsx';
 
 const LoginPage = () => {
     const navigate = useNavigate();
-    const { isSignupSuccess } = useContext(AuthorsContext);
     const [isLoginPage, setIsLoginPage] = useState(true);
 
     const handleLoginPage = () => {
@@ -29,7 +26,6 @@ const LoginPage = () => {
 
     return (
         <Container className="vh-100 d-flex flex-column justify-content-center gap-4 position-relative">
-            {isSignupSuccess && <Welcome/>}
             <Row>
                 <Col className="d-flex justify-content-center">
                     <BrandLogo nav={'/'} fsLogo="display-2" w="65" h="65"/>

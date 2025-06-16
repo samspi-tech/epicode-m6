@@ -10,8 +10,6 @@ const BlogPostForm = () => {
     const { data } = useContext(AuthorsContext)
     const { payload, dispatch, createBlogPost } = useContext(BlogPostContext);
 
-    console.log(authorId);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         createBlogPost(authorId);

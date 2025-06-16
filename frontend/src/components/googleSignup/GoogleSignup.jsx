@@ -15,8 +15,8 @@ const GoogleSignup = () => {
     const randomPassword = Math.random().toString(36).slice(-8);
 
     const signupPayload = {
-        firstName: googleUser.name,
-        lastName: `${googleUser?.lastName}`,
+        firstName: googleUser.given_name,
+        lastName: `${googleUser?.family_name}`,
         email: googleUser.email,
         dateOfBirth: '1990/01/01',
         password: randomPassword,
@@ -28,7 +28,7 @@ const GoogleSignup = () => {
 
         const redirect = setTimeout(() => {
             navigate(`/success/user?token=${token}`, { replace: true });
-        }, 600)
+        }, 3000);
 
         return () => clearTimeout(redirect);
     }, [token]);
@@ -36,7 +36,7 @@ const GoogleSignup = () => {
     return (
         <OauthMessage
             title='Signup successfull!'
-            text='Wating to be redirected to homepage...'
+            text='Wating to be redirected to login page...'
         />
     );
 };

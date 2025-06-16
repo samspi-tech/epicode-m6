@@ -3,9 +3,9 @@ import { useContext, useEffect } from "react";
 import { Container, Row } from 'react-bootstrap';
 import Post from "../blogPosts/partials/Post.jsx";
 import AuthorHeader from './partials/AuthorHeader.jsx';
+import { isToken } from "../../middleware/ProtectedRoutes.jsx";
 import { AuthorsContext } from "../../contexts/AuthorsContext.jsx";
 import { BlogPostContext } from "../../contexts/BlogPostsContext.jsx";
-import { isToken } from "../../middleware/ProtectedRoutes.jsx";
 
 const Author = () => {
     const token = isToken();
