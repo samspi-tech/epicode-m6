@@ -15,6 +15,8 @@ const googleAuthRoute = require('./routes/google.route');
 
 const server = express();
 
+console.log(process.env.CLIENT_BASE_URL);
+
 server.use(cors({
     origin: `${process.env.CLIENT_BASE_URL}`,
     credentials: true
