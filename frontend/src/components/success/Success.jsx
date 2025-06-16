@@ -11,9 +11,12 @@ const Success = () => {
 
     const token = searchParams.get('token');
     const googleUser = jwtDecode(token)._json;
+    const normalUser = jwtDecode(token).email;
+
+    const authorEmail = googleUser ? googleUser.email : normalUser;
 
     useEffect(() => {
-        getAuthorByEmail(googleUser.email, token);
+        getAuthorByEmail(authorEmail, token);
 
         if (token && authorId) {
             localStorage.setItem('token', JSON.stringify(token));

@@ -51,6 +51,8 @@ export const AuthorsProvider = ({ children }) => {
                 type: 'dataFailed',
                 message: e.message
             })
+        } finally {
+            window.location.reload();
         }
     };
 

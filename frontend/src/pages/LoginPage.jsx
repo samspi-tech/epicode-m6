@@ -17,7 +17,7 @@ const LoginPage = () => {
     useEffect(() => {
         const token = isToken();
 
-        if (token) navigate('/homepage', { replace: true });
+        if (token) navigate(`/success/user?token=${token}`, { replace: true });
     }, [navigate]);
 
     const onRedirectGoogle = () => {

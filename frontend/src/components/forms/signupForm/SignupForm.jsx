@@ -30,7 +30,7 @@ const SignupForm = ({ handleLoginPage, redirect }) => {
         const form = e.currentTarget;
         const isFormValid = form.checkValidity() === true;
 
-        if (isFormValid) {
+        if (isFormValid && arePasswordsMatch) {
             signup(payload);
         }
 
