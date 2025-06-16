@@ -15,7 +15,7 @@ const BlogPosts = () => {
             <Row className="mt-5 gy-4 gx-0 flex-column align-items-center">
                 {status === 'loading' && <CustomSpinner text="Getting every post for you... Just hang on!"/>}
                 {status === 'error' && <CustomAlert alert="Posts Error" error={message}/>}
-                {status === 'ready' && data.blogPosts.map((post) => {
+                {status === 'ready' && data.blogPosts && data.blogPosts.map((post) => {
                     return <Post key={post._id} post={post}/>;
                 })}
             </Row>

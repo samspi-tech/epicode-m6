@@ -61,7 +61,7 @@ export const BlogPostProvider = ({ children }) => {
         }
     };
 
-    const createBlogPost = async () => {
+    const createBlogPost = async (authorId) => {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_SERVER_BASE_URL}/blogPosts/create/${authorId}`,

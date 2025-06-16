@@ -16,7 +16,7 @@ const CustomPagination = () => {
             <Button size="sm" onClick={handlePrevPage}>
                 -
             </Button>
-            <span>{page}</span>
+            <span>{page} / {totalPages}</span>
             <Button size="sm" onClick={handleNextPage}>
                 +
             </Button>

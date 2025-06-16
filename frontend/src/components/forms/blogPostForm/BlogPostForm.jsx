@@ -3,14 +3,18 @@ import { useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { BlogPostContext } from '../../../contexts/BlogPostsContext.jsx';
 import { AuthorsContext } from "../../../contexts/AuthorsContext.jsx";
+import { isAuthorId } from "../../../middleware/ProtectedRoutes.jsx";
 
 const BlogPostForm = () => {
+    const authorId = isAuthorId();
     const { data } = useContext(AuthorsContext)
     const { payload, dispatch, createBlogPost } = useContext(BlogPostContext);
 
+    console.log(authorId);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        createBlogPost();
+        createBlogPost(authorId);
     };
 
     const handlePayload = (e) => {
