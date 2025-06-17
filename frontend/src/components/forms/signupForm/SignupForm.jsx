@@ -1,11 +1,14 @@
+import './signupForm.css';
 import { useContext, useState } from 'react';
 import OauthButton from "../partials/OauthButton.jsx";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import CustomAlert from "../../customAlert/CustomAlert.jsx";
+import SignupSuccessfully from "../partials/SignupSuccessfully.jsx";
 import { AuthorsContext } from '../../../contexts/AuthorsContext.jsx';
 
 const SignupForm = ({ handleLoginPage, redirect }) => {
     const [validated, setValidated] = useState(false);
+    const [isSignupSuccessful, setIsSignupSuccessful] = useState(false);
     const { state, status, dispatch, message, signup } = useContext(AuthorsContext);
     const { payload } = state;
 
@@ -32,6 +35,11 @@ const SignupForm = ({ handleLoginPage, redirect }) => {
 
         if (isFormValid && arePasswordsMatch) {
             signup(payload);
+            setIsSignupSuccessful(true);
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         }
 
         setValidated(true);
@@ -39,6 +47,7 @@ const SignupForm = ({ handleLoginPage, redirect }) => {
 
     return (
         <Row className="justify-content-center">
+            {isSignupSuccessful && <SignupSuccessfully/>}
             {status === 'error' && <CustomAlert alert='Error!' error={message}/>}
             <Col xs={11} md={8} lg={6} xl={5}>
                 <h5 className="text-center fw-bold">Welcome!</h5>
